@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chillhub — One System, Anywhere, Anytime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ──────────────── VARIABLES ──────────────── */
+:root{
+  --blue:#4d8bbc; --blue-h:#3a6d96; --blue-lt:#e8f2f9; --blue-md:#a8c9e0;
+  --blue-dark:#2d5578;
+  --green:#3d7a47; --green-h:#2d6235; --green-lt:#e8f4ea; --green-bright:#4a9255;
+  --txt:#1e2d3d; --txt-s:#5a6e7e; --txt-m:#96aab8;
+  --bdr:#dce8f0; --bdr-s:#c0d4e2;
+  --bg:#FFFFFF; --bg1:#f4f8fc; --bg2:#e8f1f8;
+  --sh0:0 1px 2px rgba(77,139,188,.06);
+  --sh1:0 2px 8px rgba(77,139,188,.09),0 1px 3px rgba(0,0,0,.04);
+  --sh2:0 4px 20px rgba(77,139,188,.13),0 2px 8px rgba(0,0,0,.04);
+  --sh3:0 8px 40px rgba(77,139,188,.16),0 4px 16px rgba(0,0,0,.06);
+  --r4:4px; --r6:6px; --r8:8px; --r10:10px; --r12:12px; --r16:16px; --r24:24px;
+  --ff:'DM Sans',sans-serif; --fh:'Outfit',sans-serif; --fm:'DM Mono',monospace;
+  --nav:60px; --cw:1120px;
+  --grad:linear-gradient(140deg,#2d5578 0%,#3a6d96 40%,#4d8bbc 80%,#7aadcc 100%);
+  --grad-soft:linear-gradient(140deg,#3a6d96 0%,#4d8bbc 60%,#7aadcc 100%);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--ff);color:var(--txt);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+ul{list-style:none}
+button{font-family:var(--ff)}
+
+/* ──────────────── LAYOUT ──────────────── */
+.container{max-width:var(--cw);margin:0 auto;padding:0 2rem}
+.section{padding:6rem 0}
+.section-alt{background:var(--bg1)}
+main{margin-top:var(--nav)}
+.page{display:none}
+.page.active{display:block}
+.sh{margin-bottom:3rem}
+.sh .lbl{margin-bottom:.5rem}
+.sh h2{margin-bottom:.625rem}
+
+/* ──────────────── TYPE ──────────────── */
+.lbl{font-family:var(--fm);font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+h2{font-family:var(--fh);font-size:clamp(1.7rem,3vw,2.2rem);font-weight:700;letter-spacing:-.03em;line-height:1.15;color:var(--txt)}
+h3{font-family:var(--fh);font-size:1.05rem;font-weight:600;letter-spacing:-.01em;color:var(--txt)}
+.sub{font-size:.95rem;color:var(--txt-s);line-height:1.7;max-width:540px}
+.page-hero{padding:4.5rem 0 3.5rem;background:var(--grad);position:relative;overflow:hidden}
+.page-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+.page-hero .lbl{color:rgba(255,255,255,.8);background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:100px;display:inline-block;padding:.2rem .75rem;margin-bottom:.625rem}
+.page-hero h2{color:white}
+.page-hero .sub{color:rgba(255,255,255,.82);max-width:600px}
+.page-hero a{color:rgba(255,255,255,.9);text-decoration:underline}
+
+/* ──────────────── BTNS ──────────────── */
+.btn{display:inline-flex;align-items:center;gap:.375rem;font-family:var(--ff);font-size:.875rem;font-weight:600;padding:.5rem 1.125rem;border-radius:var(--r8);cursor:pointer;border:none;transition:all .15s;text-decoration:none;line-height:1}
+.btn-ghost{background:transparent;color:var(--txt-s)}
+.btn-ghost:hover{background:var(--bg1);color:var(--txt)}
+.btn-outline{background:transparent;color:var(--blue);border:1px solid var(--blue-md)}
+.btn-outline:hover{background:var(--blue-lt);border-color:var(--blue)}
+.btn-primary{background:white;color:var(--blue);box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.btn-primary:hover{background:#F0F4FF;box-shadow:0 4px 14px rgba(0,0,0,.2);transform:translateY(-1px)}
+.btn-green{background:#43A047;color:white;box-shadow:0 2px 8px rgba(67,160,71,.25)}
+.btn-green:hover{background:#388E3C;transform:translateY(-1px)}
+.btn-white-outline{background:transparent;color:white;border:1.5px solid rgba(255,255,255,.5)}
+.btn-white-outline:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.8)}
+.btn-lg{padding:.75rem 1.5rem;font-size:1rem;border-radius:var(--r10)}
+.btn-xl{padding:.875rem 2rem;font-size:1.05rem;border-radius:var(--r10)}
+
+/* ──────────────── NAV ──────────────── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav);display:flex;align-items:center;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--bdr)}
+.nav-i{max-width:var(--cw);margin:0 auto;padding:0 2rem;width:100%;display:flex;align-items:center;gap:1.5rem}
+.nav-logo{font-family:var(--fh);font-size:1.3rem;font-weight:800;letter-spacing:-.03em;color:var(--txt);flex-shrink:0}
+.nav-logo span{color:var(--blue)}
+.nav-links{display:flex;gap:.125rem;flex:1;justify-content:center}
+.nav-links button{background:none;border:none;font-family:var(--ff);font-size:.855rem;font-weight:500;color:var(--txt-s);padding:.375rem .875rem;cursor:pointer;border-radius:var(--r6);transition:all .15s}
+.nav-links button:hover,.nav-links button.active{color:var(--txt);background:var(--bg1)}
+.nav-links button.active{color:var(--blue);font-weight:600}
+.nav-ctas{display:flex;gap:.5rem;flex-shrink:0}
+
+/* ──────────────── BADGES ──────────────── */
+.badge{display:inline-flex;align-items:center;gap:.375rem;font-family:var(--fm);font-size:.68rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;padding:.25rem .75rem;border-radius:100px}
+.badge-blue{background:var(--blue-lt);border:1px solid var(--blue-md);color:var(--blue)}
+.badge-green{background:var(--green-lt);color:var(--green)}
+.badge-amber{background:#FEF3C7;border:1px solid #FDE68A;color:#92400E}
+.badge-grey{background:var(--bg2);border:1px solid var(--bdr);color:var(--txt-s)}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ══════════════════════════════════════════
+   HOME PAGE
+══════════════════════════════════════════ */
+
+/* HERO */
+.hero{padding:5.5rem 0 5rem;background:var(--grad);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none}
+.hero-i{max-width:var(--cw);margin:0 auto;padding:0 2rem 3rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;z-index:1}
+.hero-badge{margin-bottom:1.375rem}
+.hero-title{font-family:var(--fh);font-size:clamp(2.4rem,4.5vw,3.9rem);font-weight:800;letter-spacing:-.045em;line-height:1.0;color:white;margin-bottom:1rem}
+.hero-title .hl{color:#a8d4ec}
+.hero-modules{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.25rem}
+.hero-pill{font-family:var(--fm);font-size:.68rem;padding:.22rem .65rem;border-radius:100px;border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.85);background:rgba(255,255,255,.12);backdrop-filter:blur(4px)}
+.hero-sub{font-size:1rem;color:rgba(255,255,255,.82);line-height:1.75;margin-bottom:2rem;max-width:430px}
+.hero-ctas{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.125rem}
+.hero-trust{display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}
+.trust-i{display:flex;align-items:center;gap:.35rem;font-size:.78rem;color:rgba(255,255,255,.7)}
+.trust-i::before{content:'✓';color:#A5D6A7;font-weight:700;font-size:.72rem}
+
+/* App mockup */
+.mockup{background:rgba(255,255,255,.97);border:1px solid rgba(255,255,255,.5);border-radius:var(--r16);overflow:hidden;box-shadow:var(--sh3),0 0 0 1px rgba(255,255,255,.3);transform:perspective(1000px) rotateY(-3deg) rotateX(2deg)}
+.mock-bar{background:var(--bg1);border-bottom:1px solid var(--bdr);padding:.55rem .875rem;display:flex;align-items:center;gap:.35rem}
+.mdot{width:9px;height:9px;border-radius:50%}
+.mdot.r{background:#FF5F57}.mdot.y{background:#FEBC2E}.mdot.g{background:#28C840}
+.mock-url{flex:1;margin-left:.5rem;background:var(--bg);border:1px solid var(--bdr);border-radius:4px;padding:.18rem .5rem;font-family:var(--fm);font-size:.58rem;color:var(--txt-m)}
+.mock-body{display:flex;min-height:330px}
+.mock-sb{width:155px;flex-shrink:0;background:var(--bg1);border-right:1px solid var(--bdr);padding:.75rem .6rem}
+.sb-logo{font-family:var(--fh);font-size:.82rem;font-weight:800;padding:.2rem .4rem;margin-bottom:.875rem}
+.sb-logo span{color:var(--blue)}
+.sb-item{display:flex;align-items:center;gap:.375rem;font-size:.66rem;font-weight:500;padding:.35rem .475rem;border-radius:5px;color:var(--txt-s);margin-bottom:1px;cursor:default}
+.sb-item.on{background:var(--blue-lt);color:var(--blue);font-weight:600}
+.sb-item:not(.on):hover{background:var(--bg2)}
+.mock-main{flex:1;padding:.875rem;overflow:hidden}
+.mock-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
+.mock-ttl{font-family:var(--fh);font-size:.77rem;font-weight:700}
+.mock-act{font-size:.58rem;font-weight:600;background:var(--green);color:white;padding:.18rem .5rem;border-radius:4px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.375rem;margin-bottom:.7rem}
+.sc{background:var(--bg1);border:1px solid var(--bdr);border-radius:6px;padding:.45rem .5rem}
+.sc-v{font-family:var(--fh);font-size:.9rem;font-weight:700;line-height:1;color:var(--txt)}
+.sc-l{font-family:var(--fm);font-size:.5rem;color:var(--txt-m);margin-top:2px}
+.mrow{display:flex;align-items:center;gap:.5rem;padding:.33rem .45rem;border-radius:5px;margin-bottom:2px}
+.mrow:hover{background:var(--bg1)}
+.mrd{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.mrn{flex:1;font-size:.63rem;font-weight:600;color:var(--txt)}
+.mrm{font-family:var(--fm);font-size:.55rem;color:var(--txt-m)}
+.mrt{font-size:.58rem;color:var(--txt-s)}
+.bsm{font-size:.53rem;font-weight:600;padding:.1rem .35rem;border-radius:100px}
+.bbl{background:var(--blue-lt);color:var(--blue)}
+.bbn{background:var(--green-lt);color:var(--green)}
+.bba{background:#FEF3C7;color:#92400E}
+.bbg{background:var(--bg2);color:var(--txt-s)}
+
+/* MODULES */
+.mod-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.875rem;margin-top:2.5rem}
+.mod-card{background:var(--bg);border:1px solid var(--bdr);border-radius:var(--r12);padding:1.25rem;transition:border-color .15s,box-shadow .15s,transform .15s;cursor:default}
+.mod-card:hover{border-color:var(--blue-md);box-shadow:var(--sh2);transform:translateY(-2px)}
+.mod-ico{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:.875rem;background:var(--blue-lt);border:1px solid var(--blue-md)}
+.mod-name{font-family:var(--fh);font-size:.88rem;font-weight:700;margin-bottom:.5rem}
+.mod-f{font-size:.72rem;color:var(--txt-s);display:flex;gap:.3rem;line-height:1.45;margin-bottom:.22rem}
+.mod-f::before{content:'·';color:var(--blue);font-weight:700;flex-shrink:0}
+
+/* ══════════════════════════════════════════
+   SCREENSHOT SHOWCASE SECTION
+══════════════════════════════════════════ */
+.ss-section{padding:6rem 0;background:var(--bg)}
+.ss-inner{display:grid;grid-template-columns:1fr 420px;gap:5rem;align-items:center}
+.ss-tabs{display:flex;flex-direction:column;gap:.375rem}
+.ss-tab{display:flex;align-items:flex-start;gap:.875rem;padding:.875rem 1rem;border-radius:var(--r12);cursor:pointer;border:1.5px solid transparent;transition:all .2s;background:transparent;text-align:left;width:100%}
+.ss-tab:hover{background:var(--bg1);border-color:var(--bdr)}
+.ss-tab.active{background:var(--blue-lt);border-color:var(--blue-md)}
+.ss-tab-ico{width:36px;height:36px;border-radius:9px;background:var(--bg1);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;transition:all .2s}
+.ss-tab.active .ss-tab-ico{background:var(--blue);border-color:var(--blue-dark)}
+.ss-tab-txt{}
+.ss-tab-t{font-size:.875rem;font-weight:700;color:var(--txt);margin-bottom:.1rem;transition:color .2s}
+.ss-tab.active .ss-tab-t{color:var(--blue)}
+.ss-tab-d{font-size:.75rem;color:var(--txt-m);line-height:1.5}
+.ss-phone-wrap{position:relative;display:flex;justify-content:center;align-items:center}
+.ss-phone-glow{position:absolute;inset:-30px;background:radial-gradient(ellipse at center,rgba(25,118,210,.15) 0%,transparent 70%);pointer-events:none;border-radius:50%}
+.ss-phone{position:relative;width:260px}
+.ss-phone-outer{background:linear-gradient(160deg,#253545 0%,#1a2a38 60%,#111e2a 100%);border-radius:40px;padding:10px 10px 18px;box-shadow:0 32px 64px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.1),inset 0 0 0 1px rgba(255,255,255,.05)}
+.ss-phone-top{text-align:center;padding:.5rem 0 .45rem;position:relative}
+.ss-phone-speaker{width:52px;height:5px;background:rgba(255,255,255,.12);border-radius:3px;margin:0 auto}
+.ss-phone-screen{border-radius:28px;overflow:hidden;background:#000;min-height:460px;position:relative}
+.ss-phone-screen img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .35s ease,transform .35s ease;position:absolute;top:0;left:0}
+.ss-phone-screen img.ss-active{opacity:1;transform:scale(1);position:relative}
+.ss-phone-screen img.ss-hidden{opacity:0;transform:scale(1.03);pointer-events:none}
+.ss-phone-home{display:flex;justify-content:center;padding:.6rem 0 .2rem}
+.ss-phone-btn{width:36px;height:5px;background:rgba(255,255,255,.2);border-radius:3px}
+/* floating caption */
+.ss-caption{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);background:white;border:1px solid var(--bdr);border-radius:100px;padding:.25rem .875rem;font-family:var(--fm);font-size:.62rem;font-weight:500;color:var(--blue);white-space:nowrap;box-shadow:var(--sh1)}
+
+/* FEATURE SCREENSHOT STRIP */
+.fss-strip-wrap{overflow-x:auto;margin-bottom:2.5rem;padding-bottom:.75rem;-webkit-overflow-scrolling:touch}
+.fss-strip-wrap::-webkit-scrollbar{height:4px}
+.fss-strip-wrap::-webkit-scrollbar-track{background:var(--bg1);border-radius:2px}
+.fss-strip-wrap::-webkit-scrollbar-thumb{background:var(--blue-md);border-radius:2px}
+.fss-strip{display:flex;gap:1rem;width:max-content}
+.fss-item{display:flex;flex-direction:column;align-items:center;gap:.5rem;cursor:pointer;transition:transform .15s}
+.fss-item:hover{transform:translateY(-3px)}
+.fss-phone-mini{background:linear-gradient(160deg,#2C3E50,#1A2332);border-radius:18px;padding:5px 5px 9px;box-shadow:0 8px 24px rgba(0,0,0,.2),inset 0 0 0 1px rgba(255,255,255,.08);width:110px}
+.fss-phone-mini-screen{border-radius:14px;overflow:hidden;min-height:175px;background:#000}
+.fss-phone-mini-screen img{width:100%;display:block;object-fit:cover;height:175px}
+.fss-phone-mini-btn{width:20px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;margin:.4rem auto 0}
+.fss-label{font-family:var(--fm);font-size:.6rem;letter-spacing:.05em;text-transform:uppercase;color:var(--txt-m);text-align:center;max-width:110px;line-height:1.35}
+
+/* WORKFLOW */
+.wf-tabs-wrap{display:flex;gap:.3rem;padding:.25rem;background:var(--bg1);border:1px solid var(--bdr);border-radius:var(--r10);width:fit-content;margin-bottom:2rem}
+.wf-tab{font-size:.82rem;font-weight:500;padding:.45rem 1.125rem;border-radius:7px;border:none;background:transparent;color:var(--txt-s);cursor:pointer;transition:all .15s}
+.wf-tab.active{background:var(--bg);color:var(--blue);font-weight:600;box-shadow:var(--sh0);border:1px solid var(--bdr)}
+.wf-panel{display:none}
+.wf-panel.active{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.wf-screen{background:var(--bg);border:1px solid var(--bdr);border-radius:var(--r12);overflow:hidden;box-shadow:var(--sh2)}
+.wf-scrn-bar{background:var(--bg1);border-bottom:1px solid var(--bdr);padding:.45rem .8rem;display:flex;align-items:center;gap:.3rem}
+.wf-dots{display:flex;gap:3px}
+.wf-dot{width:7px;height:7px;border-radius:50%}
+.wf-bar-lbl{flex:1;margin-left:.5rem;font-family:var(--fm);font-size:.58rem;color:var(--txt-m)}
+.wf-body{padding:.875rem}
+.wf-row{display:flex;align-items:center;gap:.5rem;padding:.45rem .6rem;border:1px solid var(--bdr);border-radius:6px;margin-bottom:.35rem;font-size:.68rem}
+.wf-rn{flex:1;font-weight:600;color:var(--txt)}
+.wf-rt{font-family:var(--fm);font-size:.58rem;color:var(--txt-m)}
+.wf-steps{display:flex;flex-direction:column;gap:1.125rem}
+.wf-step{display:flex;gap:.875rem;align-items:flex-start}
+.wf-num{width:27px;height:27px;border-radius:50%;background:var(--blue);color:white;font-family:var(--fm);font-size:.65rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.wf-t{font-size:.875rem;font-weight:700;margin-bottom:.2rem}
+.wf-d{font-size:.78rem;color:var(--txt-s);line-height:1.55}
+
+/* Real screenshot in workflow panel */
+.wf-real-img{width:100%;display:block;object-fit:cover}
+.wf-img-caption{padding:.5rem .875rem;background:var(--bg1);border-top:1px solid var(--bdr);font-family:var(--fm);font-size:.6rem;color:var(--txt-m);letter-spacing:.04em;display:flex;align-items:center;gap:.4rem}
+.wf-img-caption span{color:var(--green);font-weight:700}
+
+/* COMPARISON */
+.cmp-wrap{margin-top:2.5rem;border:1px solid var(--bdr);border-radius:var(--r12);overflow:hidden;box-shadow:var(--sh1)}
+.cmp{width:100%;border-collapse:collapse;font-size:.82rem}
+.cmp thead th{padding:.8rem 1.125rem;font-size:.68rem;font-weight:700;text-align:center;border-bottom:1px solid var(--bdr);background:var(--bg1);color:var(--txt-s);letter-spacing:.02em}
+.cmp thead th:first-child{text-align:left;min-width:210px}
+.cmp thead th.ch{background:var(--blue);color:white;font-size:.8rem}
+.cmp tbody td{padding:.55rem 1.125rem;border-bottom:1px solid var(--bdr);text-align:center;color:var(--txt-m);vertical-align:middle;background:var(--bg)}
+.cmp tbody td:first-child{text-align:left;color:var(--txt)}
+.cmp .cat td{background:var(--bg2);font-family:var(--fm);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-m);padding:.35rem 1.125rem}
+.cmp tbody tr:last-child td{border-bottom:none}
+.cmp .chc{background:var(--blue-lt);color:var(--blue);font-weight:700;font-size:.9rem}
+.cmp tbody tr:hover td{background:var(--bg1)}
+.cmp tbody tr:hover .chc{background:#E0EAFF}
+.cy{color:var(--green);font-size:1rem}
+.cn{color:#EF4444;font-size:.85rem}
+.cp{font-family:var(--fm);font-size:.63rem;background:#FEF3C7;color:#92400E;padding:.1rem .35rem;border-radius:3px}
+.cprice{font-family:var(--fm);font-size:.75rem;font-weight:600;color:var(--txt)}
+
+/* PRICING TEASER */
+.pt-box{background:var(--grad);border-radius:var(--r24);padding:3.5rem;text-align:center;position:relative;overflow:hidden}
+.pt-box::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.1) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+.pt-price{font-family:var(--fh);font-size:5.5rem;font-weight:800;letter-spacing:-.06em;line-height:1;color:white;margin:.875rem 0 .25rem}
+.pt-price sup{font-size:1.75rem;font-weight:700;vertical-align:top;margin-top:.875rem}
+.pt-price sub{font-size:1.1rem;font-family:var(--ff);font-weight:400;color:rgba(255,255,255,.7);letter-spacing:0}
+.pt-incl{display:flex;flex-wrap:wrap;gap:.375rem;justify-content:center;margin:1.25rem 0 2rem}
+.pt-tag{font-size:.75rem;color:rgba(255,255,255,.8);background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:.2rem .65rem;border-radius:100px}
+
+/* CTA STRIP */
+.cta-strip{background:var(--grad);padding:5rem 0;text-align:center;position:relative;overflow:hidden}
+.cta-strip::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.1) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+.cta-strip h2{color:white;margin-bottom:.75rem}
+.cta-strip .sub{color:rgba(255,255,255,.72);margin:0 auto 2rem}
+
+/* ══════════════════════════════════════════
+   FEATURES PAGE
+══════════════════════════════════════════ */
+.feat-tabs-wrap{display:flex;gap:.375rem;flex-wrap:wrap;margin:1.75rem 0 2.25rem}
+.ft-btn{font-size:.8rem;font-weight:500;padding:.4rem .95rem;border-radius:var(--r8);border:1px solid var(--bdr);background:var(--bg);color:var(--txt-s);cursor:pointer;transition:all .15s}
+.ft-btn:hover{border-color:var(--blue-md);color:var(--blue);background:var(--blue-lt)}
+.ft-btn.active{background:var(--blue);color:white;border-color:var(--blue)}
+.fp{display:none}
+.fp.active{display:block}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:.75rem}
+.fi{display:flex;gap:.75rem;padding:.875rem 1rem;border:1px solid var(--bdr);border-radius:var(--r10);background:var(--bg);transition:border-color .15s}
+.fi:hover{border-color:var(--blue-md)}
+.fi-ck{width:22px;height:22px;border-radius:50%;background:var(--green-lt);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:.68rem;flex-shrink:0;font-weight:700;margin-top:1px}
+.fi-t{font-size:.875rem;font-weight:600;margin-bottom:.2rem}
+.fi-d{font-size:.77rem;color:var(--txt-s);line-height:1.5}
+
+/* ══════════════════════════════════════════
+   ABOUT PAGE
+══════════════════════════════════════════ */
+.about-hero{padding:5rem 0 4rem;background:var(--grad);position:relative;overflow:hidden}
+.about-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.1) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+.about-q{font-family:var(--fh);font-size:clamp(1.8rem,3.5vw,2.9rem);font-weight:700;letter-spacing:-.035em;line-height:1.2;max-width:700px;color:white;position:relative}
+.about-q span{color:#a8d4ec}
+.about-q+p{color:rgba(255,255,255,.82);position:relative}
+.about-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;padding:3rem 0;border-bottom:1px solid var(--bdr)}
+.as-n{font-family:var(--fh);font-size:2.75rem;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--txt);margin-bottom:.25rem}
+.as-l{font-size:.875rem;color:var(--txt-s)}
+.vals-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.125rem}
+.val-card{padding:1.625rem;border:1px solid var(--bdr);border-radius:var(--r12);background:var(--bg);transition:border-color .15s,box-shadow .15s}
+.val-card:hover{border-color:var(--blue-md);box-shadow:var(--sh1)}
+.val-ico{font-size:1.5rem;margin-bottom:.75rem}
+.val-t{font-family:var(--fh);font-size:1rem;font-weight:700;margin-bottom:.375rem}
+.val-d{font-size:.875rem;color:var(--txt-s);line-height:1.6}
+.global-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.globe-box{background:var(--bg1);border:1px solid var(--bdr);border-radius:var(--r16);padding:2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
+.gchip{background:var(--bg);border:1px solid var(--bdr);border-radius:var(--r10);padding:.75rem;text-align:center;box-shadow:var(--sh0)}
+.gchip .gf{font-size:1.5rem;margin-bottom:.25rem}
+.gchip .gn{font-family:var(--fm);font-size:.6rem;color:var(--txt-m)}
+.g-feats{display:flex;flex-direction:column;gap:.875rem}
+.gf-row{display:flex;gap:.75rem;padding:.875rem 1rem;background:var(--bg);border:1px solid var(--bdr);border-radius:var(--r10);transition:border-color .15s}
+.gf-row:hover{border-color:var(--blue-md)}
+.gf-ico{width:36px;height:36px;border-radius:9px;background:var(--blue-lt);border:1px solid var(--blue-md);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.gf-t{font-size:.875rem;font-weight:700;margin-bottom:.15rem}
+.gf-d{font-size:.78rem;color:var(--txt-s);line-height:1.5}
+
+/* ══════════════════════════════════════════
+   PRICING PAGE
+══════════════════════════════════════════ */
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2.5rem}
+.plan-card{background:var(--bg);border:1.5px solid var(--blue-md);border-radius:var(--r16);padding:2rem;box-shadow:var(--sh2)}
+.plan-name{font-family:var(--fh);font-size:1.2rem;font-weight:700;margin-bottom:.2rem}
+.plan-tag{font-size:.83rem;color:var(--txt-s);margin-bottom:1.25rem}
+.plan-price{display:flex;align-items:baseline;gap:.2rem;margin-bottom:.2rem}
+.pp-rm{font-family:var(--fh);font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
+.pp-n{font-family:var(--fh);font-size:4.5rem;font-weight:800;letter-spacing:-.055em;line-height:1;color:var(--txt)}
+.pp-mo{font-size:.9rem;color:var(--txt-s)}
+.plan-cancel{font-size:.8rem;color:var(--green);font-weight:600;margin-bottom:1.25rem;display:flex;align-items:center;gap:.4rem}
+.plan-cancel::before{content:'✓';font-weight:700}
+hr.div{border:none;border-top:1px solid var(--bdr);margin:1.25rem 0}
+.plan-incl-hd,.plan-addon-hd{font-family:var(--fm);font-size:.63rem;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-m);margin-bottom:.75rem}
+.plan-feats{display:grid;grid-template-columns:1fr 1fr;gap:.35rem;margin-bottom:1.5rem}
+.pf{display:flex;align-items:center;gap:.375rem;font-size:.8rem;color:var(--txt-s)}
+.pf::before{content:'✓';color:var(--green);font-weight:700;font-size:.7rem;flex-shrink:0}
+.plan-ar{display:flex;justify-content:space-between;align-items:center;padding:.45rem 0;border-bottom:1px solid var(--bdr);font-size:.8rem}
+.plan-ar:last-child{border:none}
+.par-n{color:var(--txt-s)}
+.par-p{font-family:var(--fm);font-weight:600;color:var(--txt);font-size:.78rem}
+
+/* CALC */
+.calc{background:var(--bg1);border:1px solid var(--bdr);border-radius:var(--r16);padding:2rem}
+.calc-t{font-family:var(--fh);font-size:1.15rem;font-weight:700;margin-bottom:.2rem}
+.calc-s{font-size:.85rem;color:var(--txt-s);margin-bottom:1.5rem}
+.calc-sh{font-family:var(--fm);font-size:.63rem;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-m);margin-bottom:.625rem}
+.sldr-wrap{margin-bottom:1.375rem}
+.sldr-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.sldr-lbl{font-size:.875rem;color:var(--txt)}
+.sldr-val{font-family:var(--fm);font-size:.875rem;font-weight:600;color:var(--blue)}
+input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:var(--blue-md);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--blue);cursor:pointer;box-shadow:0 0 0 3px rgba(25,118,210,.2)}
+.ca-row{display:flex;align-items:center;justify-content:space-between;padding:.7rem 0;border-bottom:1px solid var(--bdr)}
+.ca-row:last-of-type{border:none}
+.ca-info{display:flex;align-items:center;gap:.5rem}
+.ca-ico{font-size:1rem}
+.ca-n{font-size:.875rem;font-weight:600}
+.ca-p{font-size:.73rem;color:var(--txt-s)}
+.ca-right{display:flex;align-items:center;gap:.75rem}
+.ca-pr{font-family:var(--fm);font-size:.8rem;color:var(--txt-s)}
+input[type=checkbox]{width:17px;height:17px;border-radius:4px;cursor:pointer;accent-color:var(--blue)}
+.calc-total{background:var(--bg);border:1px solid var(--bdr);border-radius:var(--r10);padding:1.25rem;margin-top:1.25rem}
+.ct-hd{font-family:var(--fm);font-size:.63rem;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-m);margin-bottom:.75rem}
+.ct-row{display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.35rem}
+.ct-n{color:var(--txt-s)}.ct-a{font-family:var(--fm);font-weight:600}
+.ct-div{border:none;border-top:1px solid var(--bdr);margin:.75rem 0}
+.ct-total{display:flex;justify-content:space-between;align-items:baseline}
+.ct-tl{font-size:.9rem;font-weight:700}
+.ct-ta{font-family:var(--fh);font-size:2.25rem;font-weight:800;color:var(--blue);letter-spacing:-.04em}
+.ct-cmp{font-size:.72rem;color:var(--txt-m);text-align:right;margin-top:.25rem;font-style:italic}
+
+/* ADDON CARDS */
+.addon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin-top:1.5rem}
+.ac{border:1px solid var(--bdr);border-radius:var(--r12);padding:1.25rem;background:var(--bg);transition:border-color .15s}
+.ac:hover{border-color:var(--blue-md)}
+.ac.ot{border-color:#FDE68A;background:#FFFBEB}
+.ac-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.625rem}
+.ac-title{display:flex;align-items:center;gap:.45rem;font-size:.95rem;font-weight:700}
+.ac-ico{font-size:.95rem}
+.ac-price{font-family:var(--fm);font-size:.82rem;font-weight:600;color:var(--blue);white-space:nowrap}
+.ac-price.ot-p{color:#92400E}
+.ac-desc{font-size:.82rem;color:var(--txt-s);line-height:1.6;margin-bottom:.375rem}
+.ac-note{font-size:.72rem;color:var(--txt-m);font-style:italic}
+
+/* EXAMPLE BOX */
+.eg-box{background:var(--blue-lt);border:1px solid var(--blue-md);border-radius:var(--r12);padding:1.75rem;margin-top:2.5rem}
+.eg-hd{font-family:var(--fm);font-size:.63rem;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-bottom:1rem}
+.eg-row{display:flex;justify-content:space-between;font-size:.88rem;padding:.35rem 0;border-bottom:1px dashed var(--blue-md)}
+.eg-row:last-of-type{border:none}
+.eg-n{color:var(--txt-s)}.eg-v{font-weight:600;color:var(--txt)}
+.eg-div{border:none;border-top:1.5px solid var(--blue-md);margin:.625rem 0}
+.eg-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:.25rem}
+.eg-tl{font-size:.9rem;font-weight:700;color:var(--txt)}
+.eg-tv{font-family:var(--fh);font-size:1.75rem;font-weight:800;color:var(--blue);letter-spacing:-.04em}
+.eg-note{font-size:.78rem;color:var(--blue);margin-top:.625rem;line-height:1.6}
+
+/* ══════════════════════════════════════════
+   FAQ PAGE
+══════════════════════════════════════════ */
+.faq-cats{display:flex;gap:.375rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.fc-btn{font-size:.8rem;font-weight:500;padding:.4rem .95rem;border-radius:var(--r8);border:1px solid var(--bdr);background:var(--bg);color:var(--txt-s);cursor:pointer;transition:all .15s}
+.fc-btn:hover{border-color:var(--blue-md);color:var(--blue)}
+.fc-btn.active{background:var(--blue);color:white;border-color:var(--blue)}
+.faq-list{max-width:740px}
+.faq-item{border-bottom:1px solid var(--bdr)}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.125rem 0;background:none;border:none;text-align:left;font-family:var(--ff);font-size:.95rem;font-weight:600;color:var(--txt);cursor:pointer;gap:1rem;transition:color .15s}
+.faq-q:hover{color:var(--blue)}
+.faq-arr{font-size:.7rem;color:var(--txt-m);transition:transform .2s;flex-shrink:0}
+.faq-item.open .faq-arr{transform:rotate(180deg)}
+.faq-item.open .faq-q{color:var(--blue)}
+.faq-a{font-size:.9rem;color:var(--txt-s);line-height:1.75;padding-bottom:1.125rem;display:none}
+.faq-item.open .faq-a{display:block}
+
+/* ══════════════════════════════════════════
+   CONTACT PAGE
+══════════════════════════════════════════ */
+.contact-grid{display:grid;grid-template-columns:1fr 360px;gap:4rem;align-items:start}
+.fg{margin-bottom:1.125rem}
+.fl{display:block;font-size:.82rem;font-weight:600;color:var(--txt);margin-bottom:.35rem}
+.fi2,.fsel,.fta{width:100%;border:1px solid var(--bdr);border-radius:var(--r8);padding:.6rem .875rem;font-family:var(--ff);font-size:.9rem;color:var(--txt);background:var(--bg);outline:none;transition:border-color .15s,box-shadow .15s}
+.fi2:focus,.fsel:focus,.fta:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(25,118,210,.15)}
+.fta{resize:vertical;min-height:120px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.contact-sb{position:sticky;top:calc(var(--nav) + 1.5rem)}
+.cc{border:1px solid var(--bdr);border-radius:var(--r12);padding:1.375rem;background:var(--bg1);margin-bottom:.875rem}
+.cc-t{font-family:var(--fh);font-size:.875rem;font-weight:700;margin-bottom:.875rem}
+.co{display:flex;align-items:flex-start;gap:.75rem;padding:.7rem 0;border-bottom:1px solid var(--bdr)}
+.co:last-child{border:none}
+.co-ico{width:36px;height:36px;border-radius:9px;background:var(--blue-lt);border:1px solid var(--blue-md);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.co-l{font-size:.8rem;font-weight:600;margin-bottom:.1rem}
+.co-v{font-size:.77rem;color:var(--txt-s)}
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:.875rem;background:#25D366;color:white;border-radius:var(--r10);font-weight:700;font-size:.9rem;cursor:pointer;border:none;transition:background .15s;text-decoration:none}
+.wa-btn:hover{background:#1DAF57}
+
+/* ──────────────── FOOTER ──────────────── */
+footer{background:#162233;color:rgba(255,255,255,.65);padding:4rem 0 2rem}
+.footer-grid{display:grid;grid-template-columns:220px 1fr 1fr 1fr;gap:3rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:1.75rem}
+.f-logo{font-family:var(--fh);font-size:1.25rem;font-weight:800;color:white;letter-spacing:-.03em;margin-bottom:.5rem}
+.f-logo span{color:var(--blue)}
+.f-tag{font-size:.8rem;line-height:1.6;margin-bottom:1rem}
+.f-col-t{font-size:.73rem;font-weight:700;color:white;letter-spacing:.04em;text-transform:uppercase;margin-bottom:.875rem}
+.f-links{display:flex;flex-direction:column;gap:.4rem}
+.f-links a{font-size:.83rem;color:rgba(255,255,255,.5);transition:color .15s}
+.f-links a:hover{color:white}
+.footer-btm{display:flex;justify-content:space-between;align-items:center;font-size:.77rem;color:rgba(255,255,255,.35)}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ NAV ══════════════ -->
+<nav class="nav">
+  <div class="nav-i">
+    <a class="nav-logo" href="#"><span>chill</span>hub</a>
+    <div class="nav-links">
+      <button class="active" onclick="showPage('home',this)">Home</button>
+      <button onclick="showPage('features',this)">Features</button>
+      <button onclick="showPage('about',this)">About Us</button>
+      <button onclick="showPage('pricing',this)">Pricing</button>
+      <button onclick="showPage('faq',this)">FAQ</button>
+      <button onclick="showPage('contact',this)">Contact</button>
+    </div>
+    <div class="nav-ctas">
+      <a href="#" class="btn btn-ghost">Login</a>
+      <a href="#" class="btn btn-primary">Start Free Trial →</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ══════════════════════════════════════════════
+     HOME PAGE
+══════════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero::after"></div>
+    <div class="hero-i">
+      <div class="hero-copy">
+        <div class="hero-badge">
+          <span class="badge" style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);color:rgba(255,255,255,.9);backdrop-filter:blur(4px)"><span class="dot" style="background:#90CAF9"></span>Trusted worldwide service provider</span>
+        </div>
+        <h1 class="hero-title">One system for every part of<br><span class="hl">your business.</span></h1>
+        <div class="hero-modules">
+          <span class="hero-pill">Service</span>
+          <span class="hero-pill">·</span>
+          <span class="hero-pill">Trading</span>
+          <span class="hero-pill">·</span>
+          <span class="hero-pill">Invoicing</span>
+          <span class="hero-pill">·</span>
+          <span class="hero-pill">Delivery</span>
+          <span class="hero-pill">·</span>
+          <span class="hero-pill">Accounting</span>
+        </div>
+        <p class="hero-sub">Scheduling, inventory, invoicing, delivery, and accounting — all in one cloud platform. Built for Malaysian businesses that do real work. From RM49/month.</p>
+        <div class="hero-ctas">
+          <a href="#" class="btn btn-green btn-lg">Start Free Trial →</a>
+          <a href="#" class="btn btn-white-outline btn-lg" onclick="showPage('pricing',document.querySelectorAll('.nav-links button')[3])">View Pricing</a>
+        </div>
+        <div class="hero-trust">
+          <span class="trust-i">No credit card required</span>
+          <span class="trust-i">Cancel anytime</span>
+          <span class="trust-i">Export all data anytime</span>
+        </div>
+      </div>
+      <!-- APP MOCKUP -->
+      <div class="hero-visual">
+        <div class="mockup">
+          <div class="mock-bar">
+            <span class="mdot r"></span><span class="mdot y"></span><span class="mdot g"></span>
+            <span class="mock-url">app.chillhub.com.my/jobs</span>
+          </div>
+          <div class="mock-body">
+            <div class="mock-sb">
+              <div class="sb-logo"><span>chill</span>hub</div>
+              <div class="sb-item on"><span>📋</span> Jobs</div>
+              <div class="sb-item"><span>📅</span> Schedule</div>
+              <div class="sb-item"><span>🧾</span> Invoices</div>
+              <div class="sb-item"><span>📦</span> Inventory</div>
+              <div class="sb-item"><span>🚚</span> Delivery</div>
+              <div class="sb-item"><span>🛒</span> Purchase</div>
+              <div class="sb-item"><span>📊</span> Reports</div>
+              <div class="sb-item"><span>⚙️</span> Settings</div>
+            </div>
+            <div class="mock-main">
+              <div class="mock-top">
+                <span class="mock-ttl">Today's Jobs</span>
+                <span class="mock-act">+ New Job</span>
+              </div>
+              <div class="stats-row">
+                <div class="sc"><div class="sc-v">12</div><div class="sc-l">Active</div></div>
+                <div class="sc"><div class="sc-v">8</div><div class="sc-l">Done</div></div>
+                <div class="sc"><div class="sc-v">3</div><div class="sc-l">Pending</div></div>
+                <div class="sc" style="border-left:2px solid var(--blue)"><div class="sc-v" style="color:var(--blue)">RM45k</div><div class="sc-l">Revenue</div></div>
+              </div>
+              <div class="mrow"><span class="mrd" style="background:#3B82F6"></span><span class="mrn">Air-Con Install — Ahmad Rahman</span><span class="mrt">09:00</span><span class="bsm bbl">In Progress</span></div>
+              <div class="mrow"><span class="mrd" style="background:var(--green)"></span><span class="mrn">HVAC Service — Lee Trading Sdn Bhd</span><span class="mrt">08:30</span><span class="bsm bbn">Done</span></div>
+              <div class="mrow"><span class="mrd" style="background:#F59E0B"></span><span class="mrn">Plumbing — Tan Residence, Selangor</span><span class="mrt">14:00</span><span class="bsm bba">Scheduled</span></div>
+              <div class="mrow"><span class="mrd" style="background:var(--txt-m)"></span><span class="mrn">Electrical — Block B Office, KL</span><span class="mrt">15:30</span><span class="bsm bbg">Pending</span></div>
+              <div class="mrow"><span class="mrd" style="background:#8B5CF6"></span><span class="mrn">Lift Maintenance — Tower 3, KL</span><span class="mrt">11:00</span><span class="bsm" style="background:#F3E8FF;color:#7C3AED">En Route</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULES -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="sh">
+        <div class="lbl">What's included</div>
+        <h2>Everything your business runs on</h2>
+        <p class="sub">Five integrated modules. One login. No switching between apps.</p>
+      </div>
+      <div class="mod-grid">
+        <div class="mod-card">
+          <div class="mod-ico">🔧</div>
+          <div class="mod-name">Service</div>
+          <div class="mod-f">Job scheduling &amp; calendar</div>
+          <div class="mod-f">WhatsApp to customer</div>
+          <div class="mod-f">Map navigation to site</div>
+          <div class="mod-f">Clock in / clock out</div>
+          <div class="mod-f">Service report + e-signature</div>
+        </div>
+        <div class="mod-card">
+          <div class="mod-ico">🏪</div>
+          <div class="mod-name">Trading</div>
+          <div class="mod-f">Purchase orders to suppliers</div>
+          <div class="mod-f">Real-time stock tracking</div>
+          <div class="mod-f">COGS auto-calculation</div>
+          <div class="mod-f">Multiple warehouses</div>
+          <div class="mod-f">Serial number management</div>
+        </div>
+        <div class="mod-card">
+          <div class="mod-ico">🧾</div>
+          <div class="mod-name">Invoicing</div>
+          <div class="mod-f">Quotation &amp; sales order</div>
+          <div class="mod-f">Invoice with payment tracking</div>
+          <div class="mod-f">LHDN e-Invoice compliant</div>
+          <div class="mod-f">Multi-currency support</div>
+          <div class="mod-f">Credit &amp; debit notes</div>
+        </div>
+        <div class="mod-card">
+          <div class="mod-ico">🚚</div>
+          <div class="mod-name">Delivery</div>
+          <div class="mod-f">Delivery order management</div>
+          <div class="mod-f">Driver assignment</div>
+          <div class="mod-f">Route via Google Maps</div>
+          <div class="mod-f">Proof of delivery</div>
+          <div class="mod-f">Digital signature capture</div>
+        </div>
+        <div class="mod-card">
+          <div class="mod-ico">📊</div>
+          <div class="mod-name">Accounting</div>
+          <div class="mod-f">Real-time P&amp;L report</div>
+          <div class="mod-f">Debtor / creditor management</div>
+          <div class="mod-f">Expense scanner with AI</div>
+          <div class="mod-f">Malaysia SST report</div>
+          <div class="mod-f">Full financial reports</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       SCREENSHOT SHOWCASE — SEE IT LIVE
+  ════════════════════════════════════════ -->
+  <section class="ss-section">
+    <div class="container">
+      <div class="sh" style="margin-bottom:2rem">
+        <div class="lbl">See it live</div>
+        <h2>Real screens. Real work.</h2>
+        <p class="sub">Tap each function below to see how Chillhub looks on the phone your team carries every day.</p>
+      </div>
+      <div class="ss-inner">
+        <!-- TABS -->
+        <div class="ss-tabs">
+          <button class="ss-tab active" onclick="switchSS(this,'ss-dashboard')">
+            <div class="ss-tab-ico">📊</div>
+            <div class="ss-tab-txt">
+              <div class="ss-tab-t">Real-Time Dashboard</div>
+              <div class="ss-tab-d">Revenue, jobs, and KPIs at a glance — updated live.</div>
+            </div>
+          </button>
+          <button class="ss-tab" onclick="switchSS(this,'ss-schedule')">
+            <div class="ss-tab-ico">📅</div>
+            <div class="ss-tab-txt">
+              <div class="ss-tab-t">Job Scheduling</div>
+              <div class="ss-tab-d">Assign technicians, set timings, and track field progress.</div>
+            </div>
+          </button>
+          <button class="ss-tab" onclick="switchSS(this,'ss-einvoice')">
+            <div class="ss-tab-ico">🧾</div>
+            <div class="ss-tab-txt">
+              <div class="ss-tab-t">Invoicing + LHDN e-Invoice</div>
+              <div class="ss-tab-d">Issue invoices and auto-submit to LHDN in one tap.</div>
+            </div>
+          </button>
+          <button class="ss-tab" onclick="switchSS(this,'ss-docs')">
+            <div class="ss-tab-ico">📄</div>
+            <div class="ss-tab-txt">
+              <div class="ss-tab-t">Flexible Document Generation</div>
+              <div class="ss-tab-d">Quotations, service reports, DOs — generated instantly.</div>
+            </div>
+          </button>
+          <button class="ss-tab" onclick="switchSS(this,'ss-finance')">
+            <div class="ss-tab-ico">💰</div>
+            <div class="ss-tab-txt">
+              <div class="ss-tab-t">Financial Reports</div>
+              <div class="ss-tab-d">P&amp;L and full financial statements, always up to date.</div>
+            </div>
+          </button>
+          <button class="ss-tab" onclick="switchSS(this,'ss-expense')">
+            <div class="ss-tab-ico">📸</div>
+            <div class="ss-tab-txt">
+              <div class="ss-tab-t">Smart Expense Control</div>
+              <div class="ss-tab-d">Snap a receipt — AI reads and categorises it for you.</div>
+            </div>
+          </button>
+        </div>
+
+        <!-- PHONE FRAME -->
+        <div class="ss-phone-wrap">
+          <div class="ss-phone-glow"></div>
+          <div class="ss-phone">
+            <div class="ss-phone-outer">
+              <div class="ss-phone-top"><div class="ss-phone-speaker"></div></div>
+              <div class="ss-phone-screen" id="ss-screen">
+                <img id="ss-dashboard" class="ss-active" src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/26.png" alt="Real Time Dashboard" loading="lazy">
+                <img id="ss-schedule" class="ss-hidden" src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/Scheduling-1.png" alt="Scheduling" loading="lazy">
+                <img id="ss-einvoice" class="ss-hidden" src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/E-Invoice-Self-Billed-Invoice-1.png" alt="LHDN e-Invoice" loading="lazy">
+                <img id="ss-docs" class="ss-hidden" src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/25.png" alt="Flexible Document Generation" loading="lazy">
+                <img id="ss-finance" class="ss-hidden" src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/28.png" alt="Financial Report" loading="lazy">
+                <img id="ss-expense" class="ss-hidden" src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/27.png" alt="Smart Expense Control" loading="lazy">
+              </div>
+              <div class="ss-phone-home"><div class="ss-phone-btn"></div></div>
+            </div>
+            <div class="ss-caption" id="ss-caption">Real-Time Dashboard</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKFLOW -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="sh">
+        <div class="lbl">How it works</div>
+        <h2>Built for business that do real work</h2>
+        <p class="sub">Whether you run a service team, a trading operation, or both — Chillhub connects every step seamlessly.</p>
+      </div>
+      <div class="wf-tabs-wrap">
+        <button class="wf-tab active" onclick="switchWF(this,'wf1')">Service Companies</button>
+        <button class="wf-tab" onclick="switchWF(this,'wf2')">Trading Companies</button>
+        <button class="wf-tab" onclick="switchWF(this,'wf3')">Service + Trading</button>
+      </div>
+
+      <!-- WF1 — Service, real scheduling screenshot -->
+      <div id="wf1" class="wf-panel active">
+        <div class="wf-screen">
+          <div class="wf-scrn-bar">
+            <div class="wf-dots"><span class="wf-dot" style="background:#FF5F57"></span><span class="wf-dot" style="background:#FEBC2E"></span><span class="wf-dot" style="background:#28C840"></span></div>
+            <span class="wf-bar-lbl">Schedule — Week View</span>
+          </div>
+          <img class="wf-real-img" src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/Scheduling-1.png" alt="Chillhub Scheduling Screenshot" loading="lazy">
+          <div class="wf-img-caption"><span>✓ Live</span> Actual Chillhub scheduling screen</div>
+        </div>
+        <div class="wf-steps">
+          <div class="wf-step"><span class="wf-num">1</span><div><div class="wf-t">Assign jobs via calendar</div><div class="wf-d">Office team schedules jobs and assigns technicians. Instant notification sent — no WhatsApp group chaos.</div></div></div>
+          <div class="wf-step"><span class="wf-num">2</span><div><div class="wf-t">Technician navigates to site</div><div class="wf-d">One tap opens Google Maps to the customer's location. Clock in on arrival — time tracked automatically.</div></div></div>
+          <div class="wf-step"><span class="wf-num">3</span><div><div class="wf-t">Complete job, capture proof</div><div class="wf-d">Take photos, record video, get customer e-signature. Everything stored in the cloud instantly.</div></div></div>
+          <div class="wf-step"><span class="wf-num">4</span><div><div class="wf-t">Auto-generate documents</div><div class="wf-d">Service report → Sales Order → Invoice → Payment. One flow, fully linked, no re-keying data.</div></div></div>
+        </div>
+      </div>
+
+      <!-- WF2 — Trading, real e-invoice/doc screenshot -->
+      <div id="wf2" class="wf-panel">
+        <div class="wf-screen">
+          <div class="wf-scrn-bar">
+            <div class="wf-dots"><span class="wf-dot" style="background:#FF5F57"></span><span class="wf-dot" style="background:#FEBC2E"></span><span class="wf-dot" style="background:#28C840"></span></div>
+            <span class="wf-bar-lbl">Invoicing + LHDN e-Invoice</span>
+          </div>
+          <img class="wf-real-img" src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/E-Invoice-Self-Billed-Invoice-1.png" alt="Chillhub e-Invoice Screenshot" loading="lazy">
+          <div class="wf-img-caption"><span>✓ Live</span> Actual Chillhub invoicing screen</div>
+        </div>
+        <div class="wf-steps">
+          <div class="wf-step"><span class="wf-num">1</span><div><div class="wf-t">Raise purchase orders</div><div class="wf-d">Create POs to suppliers from phone or desktop. Track every outstanding PO quantity automatically.</div></div></div>
+          <div class="wf-step"><span class="wf-num">2</span><div><div class="wf-t">Receive stock, track serial numbers</div><div class="wf-d">Receive goods into multiple warehouses. Serial number tracking for every unit. Real-time stock levels.</div></div></div>
+          <div class="wf-step"><span class="wf-num">3</span><div><div class="wf-t">Create invoices linked to delivery</div><div class="wf-d">Invoices auto-link to delivery orders. Driver captures customer signature as proof of delivery.</div></div></div>
+          <div class="wf-step"><span class="wf-num">4</span><div><div class="wf-t">P&amp;L updates automatically</div><div class="wf-d">COGS calculated using FIFO. Every sale posts to accounting in real-time. No manual entry.</div></div></div>
+        </div>
+      </div>
+
+      <!-- WF3 — Combined, real dashboard screenshot -->
+      <div id="wf3" class="wf-panel">
+        <div class="wf-screen">
+          <div class="wf-scrn-bar">
+            <div class="wf-dots"><span class="wf-dot" style="background:#FF5F57"></span><span class="wf-dot" style="background:#FEBC2E"></span><span class="wf-dot" style="background:#28C840"></span></div>
+            <span class="wf-bar-lbl">Business Dashboard</span>
+          </div>
+          <img class="wf-real-img" src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/26.png" alt="Chillhub Dashboard Screenshot" loading="lazy">
+          <div class="wf-img-caption"><span>✓ Live</span> Actual Chillhub real-time dashboard</div>
+        </div>
+        <div class="wf-steps">
+          <div class="wf-step"><span class="wf-num">1</span><div><div class="wf-t">Office manages orders &amp; stock</div><div class="wf-d">Sales team handles quotations, purchase orders, and inventory across multiple warehouses.</div></div></div>
+          <div class="wf-step"><span class="wf-num">2</span><div><div class="wf-t">Field team handles jobs &amp; deliveries</div><div class="wf-d">Service technicians and delivery drivers work simultaneously. All tracked in one dashboard.</div></div></div>
+          <div class="wf-step"><span class="wf-num">3</span><div><div class="wf-t">Everything linked together</div><div class="wf-d">Jobs link to invoices. Invoices link to inventory. Inventory links to accounting. Seamless connection.</div></div></div>
+          <div class="wf-step"><span class="wf-num">4</span><div><div class="wf-t">One view of your whole business</div><div class="wf-d">Real-time P&amp;L, job revenue, stock value, and cash flow — all visible from a single dashboard.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="section">
+    <div class="container">
+      <div class="sh">
+        <div class="lbl">How we compare</div>
+        <h2>Built for global business. Priced for local.</h2>
+        <p class="sub">Why pay USD299/month for a partial solution when you can have everything for RM49?</p>
+      </div>
+      <div class="cmp-wrap">
+        <table class="cmp">
+          <thead>
+            <tr>
+              <th style="text-align:left">Feature</th>
+              <th class="ch">✦ Chillhub</th>
+              <th>Jobber</th>
+              <th>QuickBooks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="cat"><td colspan="4">Business Operations</td></tr>
+            <tr><td>Job Scheduling</td><td class="chc">✓</td><td><span class="cy">✓</span></td><td><span class="cn">✗</span></td></tr>
+            <tr><td>Inventory Management</td><td class="chc">✓</td><td><span class="cn">✗</span></td><td><span class="cy">✓</span></td></tr>
+            <tr><td>Delivery Management</td><td class="chc">✓</td><td><span class="cp">partial</span></td><td><span class="cn">✗</span></td></tr>
+            <tr><td>Purchase Orders</td><td class="chc">✓</td><td><span class="cn">✗</span></td><td><span class="cy">✓</span></td></tr>
+            <tr class="cat"><td colspan="4">Sales &amp; Finance</td></tr>
+            <tr><td>Invoicing</td><td class="chc">✓</td><td><span class="cy">✓</span></td><td><span class="cy">✓</span></td></tr>
+            <tr><td>LHDN e-Invoice (Malaysia)</td><td class="chc">✓</td><td><span class="cn">✗</span></td><td><span class="cn">✗</span></td></tr>
+            <tr><td>Malaysia SST Report</td><td class="chc">✓</td><td><span class="cn">✗</span></td><td><span class="cp">partial</span></td></tr>
+            <tr><td>Accounting / P&amp;L</td><td class="chc">✓</td><td><span class="cn">✗</span></td><td><span class="cy">✓</span></td></tr>
+            <tr><td>Multi-Currency</td><td class="chc">✓ (add-on)</td><td><span class="cn">✗</span></td><td><span class="cy">✓</span></td></tr>
+            <tr class="cat"><td colspan="4">Integrations</td></tr>
+            <tr><td>WhatsApp Integration</td><td class="chc">✓</td><td><span class="cn">✗</span></td><td><span class="cn">✗</span></td></tr>
+            <tr><td>Google Maps Navigation</td><td class="chc">✓</td><td><span class="cy">✓</span></td><td><span class="cn">✗</span></td></tr>
+            <tr><td>Mobile App</td><td class="chc">✓</td><td><span class="cy">✓</span></td><td><span class="cp">partial</span></td></tr>
+            <tr class="cat"><td colspan="4">Pricing</td></tr>
+            <tr><td>Starting Price</td><td class="chc"><span class="cprice">RM 49/mo</span></td><td><span class="cprice">USD 299/mo</span></td><td><span class="cprice">USD 30/mo</span></td></tr>
+            <tr><td>All-in-one (no add-on tools needed)</td><td class="chc">✓</td><td><span class="cn">✗</span></td><td><span class="cn">✗</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING TEASER -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="pt-box">
+        <div class="lbl" style="color:rgba(255,255,255,.8);background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:100px;display:inline-block;padding:.2rem .75rem">Simple pricing</div>
+        <div class="pt-price"><sup>RM</sup>49<sub>/mo</sub></div>
+        <p style="font-size:.95rem;color:rgba(255,255,255,.8);margin-bottom:1.25rem">One plan. All modules. No hidden fees. Cancel anytime.</p>
+        <div class="pt-incl">
+          <span class="pt-tag">Invoicing</span><span class="pt-tag">Scheduling</span><span class="pt-tag">Delivery</span>
+          <span class="pt-tag">Inventory</span><span class="pt-tag">Accounting</span><span class="pt-tag">e-Invoice</span>
+          <span class="pt-tag">WhatsApp</span><span class="pt-tag">5GB Storage</span>
+        </div>
+        <a href="#" class="btn btn-green btn-lg" style="position:relative;z-index:1" onclick="showPage('pricing',document.querySelectorAll('.nav-links button')[3])">See full pricing &amp; add-ons →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA STRIP -->
+  <section class="cta-strip">
+    <div class="container">
+      <h2>Ready to run your business from anywhere?</h2>
+      <p class="sub">Join hundreds of businesses across Southeast Asia already using Chillhub.</p>
+      <div style="display:flex;gap:.875rem;justify-content:center;flex-wrap:wrap;position:relative">
+        <a href="#" class="btn btn-green btn-xl">Start Free Trial →</a>
+        <a href="#" class="btn btn-white-outline btn-xl" onclick="showPage('contact',document.querySelectorAll('.nav-links button')[5])">Talk to Sales</a>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /home -->
+
+
+<!-- ══════════════════════════════════════════════
+     FEATURES PAGE
+══════════════════════════════════════════════ -->
+<div id="page-features" class="page">
+  <section class="page-hero">
+    <div class="container">
+      <div class="lbl" style="margin-bottom:.5rem">Features</div>
+      <h2 style="max-width:600px">Everything your business needs, in one place</h2>
+      <p class="sub" style="margin-top:.625rem">Explore all features organized by business function. Every module works together seamlessly.</p>
+    </div>
+  </section>
+
+  <!-- PHOTO STRIP — real app screenshots -->
+  <div style="padding:2.5rem 0 0;background:var(--bg1);border-bottom:1px solid var(--bdr)">
+    <div class="container">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
+        <div>
+          <div class="lbl" style="margin-bottom:.25rem">App screenshots</div>
+          <p style="font-size:.83rem;color:var(--txt-s)">Scroll to see how each module looks on the actual app →</p>
+        </div>
+      </div>
+      <div class="fss-strip-wrap">
+        <div class="fss-strip">
+          <div class="fss-item">
+            <div class="fss-phone-mini">
+              <div class="fss-phone-mini-screen">
+                <img src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/26.png" alt="Dashboard" loading="lazy">
+              </div>
+              <div class="fss-phone-mini-btn"></div>
+            </div>
+            <div class="fss-label">Real-Time Dashboard</div>
+          </div>
+          <div class="fss-item">
+            <div class="fss-phone-mini">
+              <div class="fss-phone-mini-screen">
+                <img src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/Scheduling-1.png" alt="Scheduling" loading="lazy">
+              </div>
+              <div class="fss-phone-mini-btn"></div>
+            </div>
+            <div class="fss-label">Job Scheduling</div>
+          </div>
+          <div class="fss-item">
+            <div class="fss-phone-mini">
+              <div class="fss-phone-mini-screen">
+                <img src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/E-Invoice-Self-Billed-Invoice-1.png" alt="e-Invoice" loading="lazy">
+              </div>
+              <div class="fss-phone-mini-btn"></div>
+            </div>
+            <div class="fss-label">LHDN e-Invoice</div>
+          </div>
+          <div class="fss-item">
+            <div class="fss-phone-mini">
+              <div class="fss-phone-mini-screen">
+                <img src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/25.png" alt="Documents" loading="lazy">
+              </div>
+              <div class="fss-phone-mini-btn"></div>
+            </div>
+            <div class="fss-label">Document Generation</div>
+          </div>
+          <div class="fss-item">
+            <div class="fss-phone-mini">
+              <div class="fss-phone-mini-screen">
+                <img src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/27.png" alt="Expense" loading="lazy">
+              </div>
+              <div class="fss-phone-mini-btn"></div>
+            </div>
+            <div class="fss-label">Smart Expense Control</div>
+          </div>
+          <div class="fss-item">
+            <div class="fss-phone-mini">
+              <div class="fss-phone-mini-screen">
+                <img src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/28.png" alt="Financial Report" loading="lazy">
+              </div>
+              <div class="fss-phone-mini-btn"></div>
+            </div>
+            <div class="fss-label">Financial Reports</div>
+          </div>
+          <div class="fss-item">
+            <div class="fss-phone-mini">
+              <div class="fss-phone-mini-screen">
+                <img src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/29.png" alt="Journal" loading="lazy">
+              </div>
+              <div class="fss-phone-mini-btn"></div>
+            </div>
+            <div class="fss-label">Journal &amp; Accounts</div>
+          </div>
+          <div class="fss-item">
+            <div class="fss-phone-mini">
+              <div class="fss-phone-mini-screen">
+                <img src="https://chillhub.com.my/wordpress/wp-content/uploads/2025/08/Enter-Customer-Info.png" alt="Customer Info" loading="lazy">
+              </div>
+              <div class="fss-phone-mini-btn"></div>
+            </div>
+            <div class="fss-label">Customer Info Entry</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="feat-tabs-wrap">
+        <button class="ft-btn active" onclick="switchFeat(this,'f0')">Business Operations</button>
+        <button class="ft-btn" onclick="switchFeat(this,'f1')">Sales &amp; Customer</button>
+        <button class="ft-btn" onclick="switchFeat(this,'f2')">Purchase &amp; Supplier</button>
+        <button class="ft-btn" onclick="switchFeat(this,'f3')">Inventory &amp; Assets</button>
+        <button class="ft-btn" onclick="switchFeat(this,'f4')">Service &amp; Jobs</button>
+        <button class="ft-btn" onclick="switchFeat(this,'f5')">Finance &amp; Expenses</button>
+        <button class="ft-btn" onclick="switchFeat(this,'f6')">Integrations</button>
+      </div>
+      <div id="f0" class="fp active">
+        <div class="feat-grid">
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Business Dashboard</div><div class="fi-d">Real-time overview of business performance — revenue, jobs, invoices, and stock.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Custom Report</div><div class="fi-d">Build reports tailored to your business needs, filtered by date, customer, or module.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Audit Trail</div><div class="fi-d">Chronological record of all user activity — know exactly who did what, when.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Multiple Sub-users</div><div class="fi-d">Add your team with separate logins. Base plan includes 1 admin; add 10 users per RM20/mo.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Advanced Permissions</div><div class="fi-d">Control access by module and function. Sales staff can't see accounting. Service staff can't edit invoices.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Delivery &amp; Logistics</div><div class="fi-d">Delivery order management with driver assignment, route planning, and digital sign-off.</div></div></div>
+        </div>
+      </div>
+      <div id="f1" class="fp">
+        <div class="feat-grid">
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Quotation</div><div class="fi-d">Issue quotations, track status, and convert to invoice upon acceptance.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Sales Order</div><div class="fi-d">Manage all booking orders and track prepayment status.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Invoice</div><div class="fi-d">Simple UI that streamlines billing, delivery tracking, payment, and job completion in one place.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">LHDN e-Invoice</div><div class="fi-d">Compliant LHDN e-invoice submission for Malaysian tax compliance.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Self-Billed e-Invoice</div><div class="fi-d">Generate compliant self-billed e-invoices for eligible transactions.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Credit &amp; Debit Note</div><div class="fi-d">Manage invoice adjustments with full credit and debit note support.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Payment Recording</div><div class="fi-d">Record customer payments and match against outstanding invoices.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Customer Management</div><div class="fi-d">Access full customer sales history, appointments, and payment records instantly.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Multi-Currency</div><div class="fi-d">Support multi-currency transactions and automatically calculate forex gain and loss. (Add-on)</div></div></div>
+        </div>
+      </div>
+      <div id="f2" class="fp">
+        <div class="feat-grid">
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Purchase Order</div><div class="fi-d">Streamlined supplier purchasing order process from creation to receipt.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Supplier Management</div><div class="fi-d">Centralize all supplier records and full transaction history in one place.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Track Open POs</div><div class="fi-d">Automatically track every outstanding PO quantity — know exactly what's been received vs pending.</div></div></div>
+        </div>
+      </div>
+      <div id="f3" class="fp">
+        <div class="feat-grid">
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Inventory Management</div><div class="fi-d">Monitor stock quantity in real-time across all locations.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Multiple Locations</div><div class="fi-d">Manage inventory across different warehouses or storage locations easily.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Serial Number Tracking</div><div class="fi-d">Track individual products using unique serial numbers.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Flexible Price Levels</div><div class="fi-d">Set different pricing tiers for different customer groups or volume brackets.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Stock Delivery Management</div><div class="fi-d">Organize and track the stock delivery process systematically.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Stock Replenishment</div><div class="fi-d">Monitor incoming stock and set reorder alerts.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Multiple UOM</div><div class="fi-d">Flexible unit-of-measure conversion — sell in boxes, invoice in pieces. (Add-on)</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Real-Time Costing (FIFO)</div><div class="fi-d">Costs calculated automatically using FIFO and posted with every invoice.</div></div></div>
+        </div>
+      </div>
+      <div id="f4" class="fp">
+        <div class="feat-grid">
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Schedule Management</div><div class="fi-d">Organize your service team's schedules efficiently via calendar view.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Job Tracking</div><div class="fi-d">Monitor and track all ongoing jobs and their scope in real-time.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Job Revenue Overview</div><div class="fi-d">Monitor revenue generated from service jobs across your team.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Map Direction to Site</div><div class="fi-d">One-tap navigation directly to the customer's job location via Google Maps.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Check In / Check Out</div><div class="fi-d">Track working hours with GPS-verified check in and check out at job site.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Sales Document Integration</div><div class="fi-d">Link jobs directly to quotations, sales orders, and invoices.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Job Media Management</div><div class="fi-d">Upload photos and documents on-site for complete job records.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Job Records &amp; History</div><div class="fi-d">Every completed job, fully recorded and searchable anytime.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Service Report</div><div class="fi-d">Generate complete digital service reports automatically after job completion.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Digital Job Sign Off</div><div class="fi-d">Capture customer e-signature upon job completion as proof of service.</div></div></div>
+        </div>
+      </div>
+      <div id="f5" class="fp">
+        <div class="feat-grid">
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Accounting Management</div><div class="fi-d">Full accounting operations managed systematically within the same platform.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Financial Reports</div><div class="fi-d">Generate full sets of financial performance reports — P&amp;L, balance sheet, and more.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Payment Reconciliation</div><div class="fi-d">Match payments with transaction records accurately and efficiently.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Malaysia SST Report</div><div class="fi-d">Generate SST reports for full tax compliance. (Add-on)</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Snap &amp; Capture Expenses</div><div class="fi-d">Photograph any receipt and have the details captured automatically.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">AI Receipt Scanner</div><div class="fi-d">AI-powered OCR technology reads and categorizes expenses from receipt photos.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Batch Import</div><div class="fi-d">Import customers, products, price lists, and opening balances in bulk.</div></div></div>
+        </div>
+      </div>
+      <div id="f6" class="fp">
+        <div class="feat-grid">
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">SQL &amp; AutoCount Integration</div><div class="fi-d">Connect with existing SQL or AutoCount accounting software systems.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">WhatsApp Integration</div><div class="fi-d">Send job notifications, invoices, and updates directly via WhatsApp.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Google Maps Integration</div><div class="fi-d">Access maps and location services for navigation and delivery routing.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Auto Data Backup</div><div class="fi-d">Your business data is automatically backed up securely every day.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">Live Chat Support</div><div class="fi-d">Get real-time assistance through our live support chat.</div></div></div>
+          <div class="fi"><div class="fi-ck">✓</div><div><div class="fi-t">AI Chatbot Support</div><div class="fi-d">24/7 automated customer support using AI chatbot for common questions.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- /features -->
+
+
+<!-- ══════════════════════════════════════════════
+     ABOUT PAGE
+══════════════════════════════════════════════ -->
+<div id="page-about" class="page">
+  <section class="about-hero">
+    <div class="container" style="position:relative;z-index:1">
+      <div class="lbl" style="margin-bottom:.75rem;color:rgba(255,255,255,.75);background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:100px;display:inline-block;padding:.2rem .75rem">About Chillhub</div>
+      <div class="about-q">Built for businesses that <span>do real work</span> — and need a system that keeps up.</div>
+      <p class="sub" style="margin-top:1.25rem">We started Chillhub because we saw service and trading businesses drowning in disconnected tools — one app for scheduling, another for invoicing, another for accounting. We built one system that does it all.</p>
+    </div>
+  </section>
+  <section class="section section-alt">
+    <div class="container">
+      <div class="about-stats">
+        <div><div class="as-n">500+</div><div class="as-l">Businesses using Chillhub</div></div>
+        <div><div class="as-n">5</div><div class="as-l">Countries across Southeast Asia</div></div>
+        <div><div class="as-n">50,000+</div><div class="as-l">Jobs tracked monthly</div></div>
+        <div><div class="as-n">RM 100M+</div><div class="as-l">Invoiced through the platform</div></div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="global-grid">
+        <div>
+          <div class="sh">
+            <div class="lbl">Global reach</div>
+            <h2>Built in Malaysia.<br>Used across the region.</h2>
+            <p class="sub" style="margin-top:.625rem">Chillhub is built to meet Malaysian compliance requirements — LHDN e-Invoice, SST — while supporting multi-currency for businesses trading internationally.</p>
+          </div>
+          <div class="g-feats">
+            <div class="gf-row"><div class="gf-ico">🏛️</div><div><div class="gf-t">LHDN e-Invoice Compliant</div><div class="gf-d">Built-in compliant e-invoice submission — no third-party tools needed.</div></div></div>
+            <div class="gf-row"><div class="gf-ico">📋</div><div><div class="gf-t">Malaysia SST Ready</div><div class="gf-d">Auto-calculate SST on invoices and generate tax reports instantly.</div></div></div>
+            <div class="gf-row"><div class="gf-ico">💱</div><div><div class="gf-t">Multi-Currency Support</div><div class="gf-d">Invoice in SGD, USD, AUD, and more. Forex gain/loss calculated automatically.</div></div></div>
+          </div>
+        </div>
+        <div class="globe-box">
+          <div class="gchip"><div class="gf">🇲🇾</div><div class="gn">Malaysia</div></div>
+          <div class="gchip"><div class="gf">🇸🇬</div><div class="gn">Singapore</div></div>
+          <div class="gchip"><div class="gf">🇮🇩</div><div class="gn">Indonesia</div></div>
+          <div class="gchip"><div class="gf">🇹🇭</div><div class="gn">Thailand</div></div>
+          <div class="gchip"><div class="gf">🇦🇺</div><div class="gn">Australia</div></div>
+          <div class="gchip"><div class="gf">🌏</div><div class="gn">Growing...</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section section-alt">
+    <div class="container">
+      <div class="sh">
+        <div class="lbl">Our values</div>
+        <h2>What we believe in</h2>
+      </div>
+      <div class="vals-grid">
+        <div class="val-card"><div class="val-ico">⚡</div><div class="val-t">Simplicity over complexity</div><div class="val-d">Every feature earns its place. We build what businesses actually need, not what looks impressive in a demo.</div></div>
+        <div class="val-card"><div class="val-ico">🔗</div><div class="val-t">Everything should connect</div><div class="val-d">A job should link to an invoice. An invoice should link to accounting. No re-typing, no data loss.</div></div>
+        <div class="val-card"><div class="val-ico">📱</div><div class="val-t">Mobile-first, always</div><div class="val-d">Your team is in the field, not at a desk. Chillhub works on every device, anywhere with an internet connection.</div></div>
+        <div class="val-card"><div class="val-ico">🇲🇾</div><div class="val-t">Built for Malaysian businesses</div><div class="val-d">LHDN e-Invoice, SST, Ringgit pricing, Bahasa support — we understand what Malaysian businesses need.</div></div>
+      </div>
+    </div>
+  </section>
+</div><!-- /about -->
+
+
+<!-- ══════════════════════════════════════════════
+     PRICING PAGE
+══════════════════════════════════════════════ -->
+<div id="page-pricing" class="page">
+  <section class="page-hero">
+    <div class="container">
+      <div class="lbl" style="margin-bottom:.5rem">Pricing</div>
+      <h2>Straightforward pricing. No hidden fees.</h2>
+      <p class="sub" style="margin-top:.625rem">One plan covers everything. Pay only for the add-ons you actually need. Cancel anytime.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="pricing-grid">
+        <!-- Plan Card -->
+        <div class="plan-card">
+          <div style="margin-bottom:.875rem"><span class="badge badge-amber">⭐ Most popular</span></div>
+          <div class="plan-name">SaaS — Standard Plan</div>
+          <div class="plan-tag">Hosted by us. No server needed. Start in minutes.</div>
+          <div class="plan-price"><span class="pp-rm">RM</span><span class="pp-n">49</span><span class="pp-mo">/month</span></div>
+          <div class="plan-cancel">Cancel anytime · Export all your data anytime</div>
+          <hr class="div">
+          <div class="plan-incl-hd">Everything included in RM49</div>
+          <div class="plan-feats">
+            <span class="pf">Invoicing</span>
+            <span class="pf">Sales Order</span>
+            <span class="pf">Quotation</span>
+            <span class="pf">Purchase Order</span>
+            <span class="pf">Job Scheduling</span>
+            <span class="pf">Delivery Management</span>
+            <span class="pf">Inventory Management</span>
+            <span class="pf">Accounting</span>
+            <span class="pf">Expense Tracking</span>
+            <span class="pf">Payment Recording</span>
+            <span class="pf">Credit/Debit Notes</span>
+            <span class="pf">LHDN e-Invoice</span>
+            <span class="pf">WhatsApp Integration</span>
+            <span class="pf">Google Maps</span>
+            <span class="pf">AI Chatbot Support</span>
+            <span class="pf">5GB Cloud Storage</span>
+          </div>
+          <hr class="div">
+          <div class="plan-addon-hd">Optional add-ons — only pay for what you need</div>
+          <div class="plan-ar"><span class="par-n">+10 sub-users</span><span class="par-p">+RM 20/mo</span></div>
+          <div class="plan-ar"><span class="par-n">SST + UOM + Multi-currency bundle</span><span class="par-p">+RM 15/mo</span></div>
+          <div class="plan-ar"><span class="par-n">+10GB cloud storage</span><span class="par-p">+RM 7/mo</span></div>
+          <div class="plan-ar"><span class="par-n">Data setup (one-time, optional)</span><span class="par-p" style="color:#92400E">RM 500</span></div>
+          <hr class="div">
+          <a href="#" class="btn btn-green btn-lg" style="width:100%;justify-content:center">Start Free Trial →</a>
+        </div>
+        <!-- Calculator -->
+        <div class="calc">
+          <div class="calc-t">💰 Calculate your monthly cost</div>
+          <div class="calc-s">Adjust the options to see exactly what you'll pay.</div>
+          <div class="calc-sh">Team size (users)</div>
+          <div class="sldr-wrap">
+            <div class="sldr-hd">
+              <span class="sldr-lbl">Number of users</span>
+              <span class="sldr-val" id="user-val">1 user</span>
+            </div>
+            <input type="range" id="user-slider" min="1" max="21" value="1" oninput="calcUpdate()">
+            <div style="display:flex;justify-content:space-between;font-family:var(--fm);font-size:.6rem;color:var(--txt-m);margin-top:.25rem"><span>1</span><span>11</span><span>21</span></div>
+          </div>
+          <div class="calc-sh" style="margin-top:1rem">Optional add-ons</div>
+          <div class="ca-row">
+            <div class="ca-info"><span class="ca-ico">📊</span><div><div class="ca-n">Advanced Bundle</div><div class="ca-p">SST + UOM + Multi-currency</div></div></div>
+            <div class="ca-right"><span class="ca-pr">RM15/mo</span><input type="checkbox" id="cb-bundle" onchange="calcUpdate()"></div>
+          </div>
+          <div class="ca-row">
+            <div class="ca-info"><span class="ca-ico">☁️</span><div><div class="ca-n">Extra 10GB Storage</div><div class="ca-p">Add as many as you need</div></div></div>
+            <div class="ca-right"><span class="ca-pr">RM7/mo</span><input type="checkbox" id="cb-storage" onchange="calcUpdate()"></div>
+          </div>
+          <div class="calc-total">
+            <div class="ct-hd">Your monthly breakdown</div>
+            <div class="ct-row"><span class="ct-n">Base plan (all modules)</span><span class="ct-a">RM 49</span></div>
+            <div id="ct-users-row" class="ct-row" style="display:none"><span class="ct-n" id="ct-users-label">+10 sub-users</span><span class="ct-a" id="ct-users-val">RM 20</span></div>
+            <div id="ct-bundle-row" class="ct-row" style="display:none"><span class="ct-n">Advanced bundle</span><span class="ct-a">RM 15</span></div>
+            <div id="ct-storage-row" class="ct-row" style="display:none"><span class="ct-n">Extra storage</span><span class="ct-a">RM 7</span></div>
+            <hr class="ct-div">
+            <div class="ct-total"><span class="ct-tl">Total / month</span><span class="ct-ta" id="ct-total">RM 49</span></div>
+            <div class="ct-cmp" id="ct-compare">≈ USD11/month · Jobber charges USD299+ for a similar team</div>
+          </div>
+        </div>
+      </div>
+      <!-- Add-on cards -->
+      <div style="margin-top:3.5rem">
+        <div class="lbl" style="margin-bottom:1rem">Optional add-ons — only pay for what you need</div>
+        <div class="addon-grid">
+          <div class="ac">
+            <div class="ac-hd"><div class="ac-title"><span class="ac-ico">👥</span>Additional Sub-users</div><span class="ac-price">+RM20/month</span></div>
+            <div class="ac-desc">Get 10 extra logins for your team. Each user gets their own account with role-based permissions — control who can see invoices, jobs, or reports.</div>
+            <div class="ac-note">Base plan includes 1 admin · Add-on gives +10 users per RM20 · Maximum 20 users total</div>
+          </div>
+          <div class="ac">
+            <div class="ac-hd"><div class="ac-title"><span class="ac-ico">📊</span>Advanced Capability Bundle</div><span class="ac-price">+RM15/month</span></div>
+            <div class="ac-desc">3 features in one bundle — <strong>SST</strong> (auto-calculate Sales &amp; Service Tax), <strong>UOM Conversion</strong> (sell in boxes, invoice in pieces), and <strong>Multi-Currency</strong> (invoice in SGD, USD, AUD).</div>
+            <div class="ac-note">Most businesses doing cross-border sales or collecting SST need this</div>
+          </div>
+          <div class="ac">
+            <div class="ac-hd"><div class="ac-title"><span class="ac-ico">☁️</span>Extra Cloud Storage</div><span class="ac-price">+RM7/month</span></div>
+            <div class="ac-desc">Add 10GB for photos, service reports, receipts, and delivery proof. The base plan includes 5GB free — most small teams won't need more in the first year.</div>
+            <div class="ac-note">Each add-on adds 10GB · Add as many as you need</div>
+          </div>
+          <div class="ac ot">
+            <div class="ac-hd"><div class="ac-title"><span class="ac-ico">🛠️</span>Data Setup (one-time, optional)</div><span class="ac-price ot-p">RM500</span></div>
+            <div class="ac-desc">Our team imports your existing data — customer list, product catalog, price lists, and opening balances — so you start ready to invoice on day one.</div>
+            <div class="ac-note">Completely optional · You can also set up manually for free using our batch import tool</div>
+          </div>
+        </div>
+      </div>
+      <!-- Example -->
+      <div class="eg-box" style="max-width:480px">
+        <div class="eg-hd">Example — Typical 10-person service team</div>
+        <div class="eg-row"><span class="eg-n">Base plan</span><span class="eg-v">RM 49</span></div>
+        <div class="eg-row"><span class="eg-n">+10 sub-users</span><span class="eg-v">RM 20</span></div>
+        <div class="eg-row"><span class="eg-n">Advanced bundle</span><span class="eg-v">RM 15</span></div>
+        <hr class="eg-div">
+        <div class="eg-total"><span class="eg-tl">Total</span><span class="eg-tv">RM 84/month</span></div>
+        <div class="eg-note">Compare: Jobber charges USD$299/month for the same team size — with no accounting, no inventory, no delivery.</div>
+      </div>
+    </div>
+  </section>
+</div><!-- /pricing -->
+
+
+<!-- ══════════════════════════════════════════════
+     FAQ PAGE
+══════════════════════════════════════════════ -->
+<div id="page-faq" class="page">
+  <section class="page-hero">
+    <div class="container">
+      <div class="lbl" style="margin-bottom:.5rem">FAQ</div>
+      <h2>Frequently asked questions</h2>
+      <p class="sub" style="margin-top:.625rem">Common questions about Chillhub. For detailed step-by-step guides, visit our <a href="https://wiki.chillhub.com.my" target="_blank">Knowledge Base →</a></p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="faq-cats">
+        <button class="fc-btn active" onclick="filterFAQ(this,'all')">All</button>
+        <button class="fc-btn" onclick="filterFAQ(this,'general')">Getting Started</button>
+        <button class="fc-btn" onclick="filterFAQ(this,'pricing')">Pricing</button>
+        <button class="fc-btn" onclick="filterFAQ(this,'einvoice')">e-Invoice</button>
+        <button class="fc-btn" onclick="filterFAQ(this,'sales')">Sales &amp; Documents</button>
+        <button class="fc-btn" onclick="filterFAQ(this,'inventory')">Inventory &amp; Stock</button>
+        <button class="fc-btn" onclick="filterFAQ(this,'jobs')">Jobs &amp; Scheduling</button>
+        <button class="fc-btn" onclick="filterFAQ(this,'accounting')">Accounting</button>
+        <button class="fc-btn" onclick="filterFAQ(this,'users')">Sub-Users &amp; Access</button>
+      </div>
+      <div class="faq-list">
+
+        <!-- ── GETTING STARTED ── -->
+        <div class="faq-item" data-cat="general">
+          <button class="faq-q" onclick="toggleFAQ(this)">What is Chillhub? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Chillhub is a cloud-based business management system built for Malaysian service companies, trading companies, and businesses that do both. It combines job scheduling, inventory management, invoicing, delivery management, and accounting into one platform — accessible anywhere, on any device.</div>
+        </div>
+        <div class="faq-item" data-cat="general">
+          <button class="faq-q" onclick="toggleFAQ(this)">Who is Chillhub designed for? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Chillhub is built for three types of businesses: (1) <strong>Service companies</strong> — who schedule jobs, dispatch technicians, and generate service reports. (2) <strong>Trading companies</strong> — who manage purchase orders, inventory, and deliveries. (3) <strong>Combined businesses</strong> — who do both. Examples include air conditioning companies, pest control, plumbing, electrical contractors, and wholesale distributors.</div>
+        </div>
+        <div class="faq-item" data-cat="general">
+          <button class="faq-q" onclick="toggleFAQ(this)">Do I need to install software or buy a server? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">No. Chillhub is 100% cloud-based. You just need a browser and an internet connection. It works on desktop, tablet, and mobile. No installation, no server, no IT team required. You can also install it as a Progressive Web App (PWA) on iPhone, Android, and PC for a native app experience.</div>
+        </div>
+        <div class="faq-item" data-cat="general">
+          <button class="faq-q" onclick="toggleFAQ(this)">Is there a free trial? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Yes. You can start a free trial without a credit card. Explore all features and set up your business before committing to a plan.</div>
+        </div>
+        <div class="faq-item" data-cat="general">
+          <button class="faq-q" onclick="toggleFAQ(this)">I just registered — what should I do first? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Check out the <a href="https://wiki.chillhub.com.my/doku.php?id=initial_data" target="_blank" style="color:var(--blue)">setup guide on our Knowledge Base</a> for step-by-step instructions on configuring your system — including settings, master data, inventory, pricing, and chart of accounts. This will help you get your Chillhub account fully ready for daily operations.</div>
+        </div>
+        <div class="faq-item" data-cat="general">
+          <button class="faq-q" onclick="toggleFAQ(this)">How can I track who made changes to records? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Go to <strong>Main Menu → Operational Data → Audit Trail</strong>. You can filter by date range, entity type (e.g. Invoice, Sales Order, Product), action (Create / Update / Delete), username, transaction reference, and details of what was changed. Every action in the system is recorded with a timestamp and the user who performed it.</div>
+        </div>
+
+        <!-- ── PRICING ── -->
+        <div class="faq-item" data-cat="pricing">
+          <button class="faq-q" onclick="toggleFAQ(this)">What's included in the RM49/month base plan? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">The RM49/month plan includes all core modules — invoicing, quotation, sales order, purchase order, job scheduling, delivery management, inventory management, accounting, expense tracking, payment recording, credit/debit notes, LHDN e-Invoice, WhatsApp integration, Google Maps, AI chatbot support, and 5GB of cloud storage. No module fees — you get everything.</div>
+        </div>
+        <div class="faq-item" data-cat="pricing">
+          <button class="faq-q" onclick="toggleFAQ(this)">Are there any hidden fees? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">No. The base plan is RM49/month, all-inclusive. The only additional charges are optional add-ons: extra users (+RM20/10 users), advanced bundle for SST/UOM/Multi-currency (+RM15), extra storage (+RM7/10GB), and a one-time RM500 data setup which is completely optional.</div>
+        </div>
+        <div class="faq-item" data-cat="pricing">
+          <button class="faq-q" onclick="toggleFAQ(this)">Can I cancel my subscription anytime? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Yes. Cancel anytime with no penalties. You can also export all your data anytime in common formats — your data always belongs to you.</div>
+        </div>
+        <div class="faq-item" data-cat="pricing">
+          <button class="faq-q" onclick="toggleFAQ(this)">What is the RM500 data setup for? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">The RM500 one-time data setup is an optional service where our team imports your existing data — customer lists, product catalog, price lists, and opening accounting balances — so you're ready to invoice from day one. If you prefer to set up manually, our <a href="https://wiki.chillhub.com.my/doku.php?id=batch_import" target="_blank" style="color:var(--blue)">batch import tool</a> lets you do it for free.</div>
+        </div>
+
+        <!-- ── e-INVOICE ── -->
+        <div class="faq-item" data-cat="einvoice">
+          <button class="faq-q" onclick="toggleFAQ(this)">Does Chillhub support LHDN e-Invoice? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Yes. Chillhub is compliant with LHDN e-Invoice (MyInvois) requirements. You can submit individual e-invoices and self-billed e-invoices directly from the platform. Consolidated e-invoices for anonymous/walk-in customers are automatically submitted 7 days after issuance.</div>
+        </div>
+        <div class="faq-item" data-cat="einvoice">
+          <button class="faq-q" onclick="toggleFAQ(this)">Customer did not provide information — how do I submit e-Invoice? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">
+            <strong>Partial info available:</strong> Fill in whatever fields you have, enter "NA" for missing ones, then enable <em>Submit as Consolidated e-Invoice</em> in the LHDN e-Invoice section.<br><br>
+            <strong>No info available at all:</strong> Enable <em>Anonymous Sales</em> — the customer fields will be hidden and the transaction will auto-submit as a Consolidated e-Invoice to LHDN 7 days after issuance.<br><br>
+            Note: If the customer is a business (B2B) and requests an e-Invoice, full customer details must be obtained before submission.
+          </div>
+        </div>
+        <div class="faq-item" data-cat="einvoice">
+          <button class="faq-q" onclick="toggleFAQ(this)">Why can't I edit an invoice after saving it as Issued? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">An invoice is a legal document. Once saved as Issued, it becomes a formal financial record. Modifying it after it has been sent to a customer or reported to tax authorities may cause compliance issues. Changes must be made through proper adjustments — issuing a Credit Note or cancelling the invoice (within 72 hours of LHDN validation).</div>
+        </div>
+        <div class="faq-item" data-cat="einvoice">
+          <button class="faq-q" onclick="toggleFAQ(this)">After how many days can I no longer cancel an invoice? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">According to LHDN e-Invoice guidelines, cancellations can only be made <strong>within 72 hours of validation</strong>. After this period, you must issue a Credit Note to reverse the original invoice, then create a new invoice with the corrected information.</div>
+        </div>
+        <div class="faq-item" data-cat="einvoice">
+          <button class="faq-q" onclick="toggleFAQ(this)">How does Chillhub handle consolidated e-Invoice submission? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Chillhub submits all consolidated e-Invoices individually, with automatic submission scheduled <strong>7 days</strong> after the invoice is issued. This gives you a window to submit as an individual e-Invoice if the customer later requests one (e.g. for a B2B transaction).</div>
+        </div>
+
+        <!-- ── SALES & DOCUMENTS ── -->
+        <div class="faq-item" data-cat="sales">
+          <button class="faq-q" onclick="toggleFAQ(this)">What is the difference between Product, Product Type, Service, and Custom? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">
+            <strong>Product:</strong> Specific goods, items, or parts tracked in inventory.<br>
+            <strong>Product Type:</strong> Used when a specific product model is unknown or not tracked in the system.<br>
+            <strong>Service:</strong> Additional charges or non-physical offerings your company provides.<br>
+            <strong>Custom:</strong> Free-text entry for items not covered by predefined master data.
+          </div>
+        </div>
+        <div class="faq-item" data-cat="sales">
+          <button class="faq-q" onclick="toggleFAQ(this)">What is the difference between Total Revenue, Total Billed, Total Unbilled, and Total Sales on the Dashboard? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">
+            <strong>Total Billed</strong> = Total issued invoices and their Credit/Debit Note adjustments.<br>
+            <strong>Total Unbilled</strong> = Sales Orders where invoices have not yet been issued.<br>
+            <strong>Total Sales</strong> = Total Billed + Total Unbilled.<br>
+            <strong>Total Revenue</strong> = Total Billed invoices + Credit &amp; Debit Notes + Other Income within the selected month.<br><br>
+            Note: Timing differences can occur. For example, a March invoice with an April Debit Note will appear in Total Billed (March), but the Debit Note posts to Total Revenue (April).
+          </div>
+        </div>
+        <div class="faq-item" data-cat="sales">
+          <button class="faq-q" onclick="toggleFAQ(this)">How do I issue an invoice in a foreign currency? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">You need to activate the <strong>Multi-Currency add-on</strong> (included in the Advanced Capability Bundle at +RM15/month). Once activated, open a new invoice, expand the More Information panel, select the foreign currency, and click the fetch button to get the latest Bank Negara Malaysia exchange rate. Unit prices can be entered in both local and foreign currencies, and any exchange rate difference on payment will be automatically calculated as Forex Gain/Loss.</div>
+        </div>
+        <div class="faq-item" data-cat="sales">
+          <button class="faq-q" onclick="toggleFAQ(this)">How can I check if a customer's outstanding payment? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Go to <strong>Main Menu → Accounting → Debtor</strong>. Search for the customer, click the options button, enter the date range, and click Fetch Data. You can then view, share, download, or print the customer's statement of account.</div>
+        </div>
+
+        <!-- ── INVENTORY & STOCK ── -->
+        <div class="faq-item" data-cat="inventory">
+          <button class="faq-q" onclick="toggleFAQ(this)">What do the different quantity values mean in the Inventory page? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">
+            <strong>Qty On-hand:</strong> Actual physical stock in your warehouse.<br>
+            <strong>Qty Available:</strong> Stock available for sale — On-hand minus reserved/allocated stock (where no delivery note has been created yet).<br>
+            <strong>Pending Shipment:</strong> Allocated for outgoing shipments but not yet dispatched (delivery note created, shipping not done).<br>
+            <strong>Pending Replenishment:</strong> Expected to arrive but not yet received (incoming delivery note created, replenishment not done).<br>
+            <strong>Open P/O Qty:</strong> Quantity on open purchase orders, awaiting fulfillment from suppliers.
+          </div>
+        </div>
+        <div class="faq-item" data-cat="inventory">
+          <button class="faq-q" onclick="toggleFAQ(this)">Why does cost status show "Shortage"? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">A cost shortage occurs when purchase invoices have not yet been entered, so the system cannot determine the item's actual cost. Once the purchase invoice is entered, re-save the sales invoice to trigger a cost recalculation. Alternatively, go to <strong>Invoice Page → More Actions → Update Cost Status</strong> to recalculate all shortage-status invoices for a selected month.</div>
+        </div>
+        <div class="faq-item" data-cat="inventory">
+          <button class="faq-q" onclick="toggleFAQ(this)">Stock quantity not deducted after a sale — what should I check? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">
+            Check the <strong>Delivery Status</strong> of the invoice or sales order:<br><br>
+            <strong>Status = "None":</strong> No delivery note has been created. Edit the invoice/sales order → Delivery tab → New → enter date and quantity → select warehouse in "Auto ship from" → Save.<br><br>
+            <strong>Status = "Ready":</strong> Delivery note exists but items haven't been shipped yet. Edit the invoice → Delivery tab → select warehouse in "Auto ship from" → Save.
+          </div>
+        </div>
+        <div class="faq-item" data-cat="inventory">
+          <button class="faq-q" onclick="toggleFAQ(this)">How do I manage products in different packages or units (UOM)? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Activate the <strong>Advanced Capability Bundle</strong> add-on (which includes UOM Conversion). Then set up UOM Conversions in Master Data (e.g. Twin Pack = 2 units). Link the UOM conversion to the product. When creating invoices or sales orders, you can select the alternate UOM per line item — inventory will be deducted based on the conversion factor automatically.</div>
+        </div>
+
+        <!-- ── JOBS & SCHEDULING ── -->
+        <div class="faq-item" data-cat="jobs">
+          <button class="faq-q" onclick="toggleFAQ(this)">How can I create a recurring job? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Go to <strong>Scheduling</strong> page, select the job in Calendar View (or List View), click the options button, and choose <strong>Repeat</strong>. Set a start date, end date, and frequency (Daily / Weekly / Monthly) and the interval (e.g. every 2 weeks). Click <strong>Generate Job</strong> to preview all generated jobs, review them, and Save. The system creates all the recurring jobs automatically.</div>
+        </div>
+        <div class="faq-item" data-cat="jobs">
+          <button class="faq-q" onclick="toggleFAQ(this)">How can I check if a job has media files (photos/videos) uploaded? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">On the Scheduling page, switch to <strong>Calendar View</strong> or <strong>List View</strong>. Look for the attachment icon on each job entry — if the icon is shown, media files have been uploaded for that job. If no icon appears, no files have been uploaded yet.</div>
+        </div>
+        <div class="faq-item" data-cat="jobs">
+          <button class="faq-q" onclick="toggleFAQ(this)">How can I capture a customer's e-signature on job completion? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Open the <strong>Job Completion Note</strong> from Pending Jobs (Dashboard), the Scheduling page, or from the Invoice/Sales Order form under the Job Completion tab. Once the document is open, click the <strong>Signature</strong> button, ask the customer to sign on the screen, optionally enter their name, and click Save. The signature is stored in the document record automatically.</div>
+        </div>
+
+        <!-- ── ACCOUNTING ── -->
+        <div class="faq-item" data-cat="accounting">
+          <button class="faq-q" onclick="toggleFAQ(this)">How do I perform bank reconciliation? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Go to <strong>Main Menu → Accounting → Bank Reconciliation</strong>. Select the account and month. Click <strong>Fetch Transactions</strong> to load transactions for that account. Compare each transaction with your bank statement, tick the checkboxes for matched transactions, and click Save to complete the reconciliation.</div>
+        </div>
+        <div class="faq-item" data-cat="accounting">
+          <button class="faq-q" onclick="toggleFAQ(this)">Should I record a supplier purchase invoice via the Purchase module or as an Expense? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">
+            <strong>If the item is inventory-related (stock items):</strong> Use the <strong>Purchase module</strong>. Purchase delivery updates stock quantity on hand; purchase invoice posts unit cost to the Inventory Account. When sold, cost is recognised under COGS using FIFO valuation.<br><br>
+            <strong>If the item is non-inventory related:</strong> Use the <strong>Expenses module</strong> and record it under Cost of Goods Sold or the relevant expense account.
+          </div>
+        </div>
+
+        <!-- ── SUB-USERS & ACCESS ── -->
+        <div class="faq-item" data-cat="users">
+          <button class="faq-q" onclick="toggleFAQ(this)">How do I enable the Sub-user add-on? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Go to <strong>User Menu → Subscription</strong>. In the <em>Add-On: 10 Sub-users</em> section, set the Add-on Quantity based on how many packs you need. Each unit = 10 sub-users (e.g. Qty 1 = 10 users, Qty 2 = 20 users). Click Save to activate.</div>
+        </div>
+        <div class="faq-item" data-cat="users">
+          <button class="faq-q" onclick="toggleFAQ(this)">Can multiple users access Chillhub from different devices at the same time? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Yes — a single account can be logged in and used simultaneously across multiple devices. However, for better control and traceability in a multi-employee environment, it is recommended to create <strong>Sub-Users</strong> with individual login credentials and role-based permissions. This lets you assign different access levels, track actions by individual user via the audit trail, and improve security.</div>
+        </div>
+        <div class="faq-item" data-cat="users">
+          <button class="faq-q" onclick="toggleFAQ(this)">What is the recommended sub-user role for technicians or delivery staff? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">
+            Recommended permissions for field technicians/delivery staff:<br><br>
+            • <strong>Scheduling</strong> → Read-only (view schedules, access delivery &amp; job completion notes)<br>
+            • <strong>Dashboard → Pending Jobs</strong> → Full Access (start/complete jobs, upload photos)<br>
+            • <strong>Inventory → Ship</strong> → Read-only (open delivery notes, capture customer signatures)<br>
+            • <strong>Job Completion Note</strong> → Full Access (create notes, capture signatures)<br>
+            • All other features → Lowest access level<br><br>
+            See the full guide at <a href="https://wiki.chillhub.com.my/doku.php?id=subuser" target="_blank" style="color:var(--blue)">wiki.chillhub.com.my → Sub-users</a>.
+          </div>
+        </div>
+        <div class="faq-item" data-cat="users">
+          <button class="faq-q" onclick="toggleFAQ(this)">How do I enable expense claim submission for employees? <span class="faq-arr">▼</span></button>
+          <div class="faq-a">Create a Sub-User Role with <strong>Business Transaction → Expense → Self-Service</strong> permission (employees can create and submit their own expenses only). For approvers, set the same section to <strong>Full Access</strong>. Employees then submit expenses from the Expense page with receipts, and managers approve or reject from the same page filtered by "Submitted" status.</div>
+        </div>
+
+      </div>
+
+      <!-- Wiki CTA -->
+      <div style="margin-top:3rem;padding:1.75rem 2rem;background:var(--bg1);border:1px solid var(--bdr);border-radius:var(--r12);display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap">
+        <div>
+          <div style="font-family:var(--fh);font-size:1rem;font-weight:700;margin-bottom:.25rem">More detailed questions?</div>
+          <div style="font-size:.875rem;color:var(--txt-s)">Our Knowledge Base covers every module with step-by-step guides, screenshots, and worked examples.</div>
+        </div>
+        <a href="https://wiki.chillhub.com.my" target="_blank" class="btn btn-outline btn-lg" style="flex-shrink:0">Browse Knowledge Base →</a>
+      </div>
+
+    </div>
+  </section>
+</div><!-- /faq -->
+
+
+<!-- ══════════════════════════════════════════════
+     CONTACT PAGE
+══════════════════════════════════════════════ -->
+<div id="page-contact" class="page">
+  <section class="page-hero">
+    <div class="container">
+      <div class="lbl" style="margin-bottom:.5rem">Contact Us</div>
+      <h2>Let's talk about your business</h2>
+      <p class="sub" style="margin-top:.625rem">Have a question, need a demo, or ready to get started? We'd love to hear from you.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+        <div>
+          <div class="frow">
+            <div class="fg"><label class="fl">First Name</label><input class="fi2" type="text" placeholder="Ahmad"></div>
+            <div class="fg"><label class="fl">Last Name</label><input class="fi2" type="text" placeholder="Rahman"></div>
+          </div>
+          <div class="fg"><label class="fl">Work Email</label><input class="fi2" type="email" placeholder="ahmad@company.com.my"></div>
+          <div class="frow">
+            <div class="fg"><label class="fl">Company Name</label><input class="fi2" type="text" placeholder="ABC Services Sdn Bhd"></div>
+            <div class="fg"><label class="fl">Phone Number</label><input class="fi2" type="tel" placeholder="+60 12-345 6789"></div>
+          </div>
+          <div class="fg">
+            <label class="fl">Department</label>
+            <select class="fsel">
+              <option>Sales — I'm interested in Chillhub</option>
+              <option>Support — I need help with my account</option>
+              <option>Technical — I have a technical question</option>
+              <option>Partnership — I'd like to partner with Chillhub</option>
+            </select>
+          </div>
+          <div class="fg"><label class="fl">Message</label><textarea class="fta" placeholder="Tell us about your business and what you're looking for..."></textarea></div>
+          <button class="btn btn-primary btn-lg" style="width:100%;justify-content:center">Send Message →</button>
+          <p style="font-size:.78rem;color:var(--txt-m);margin-top:.75rem">We typically reply within 1 business day.</p>
+        </div>
+        <div class="contact-sb">
+          <div class="cc">
+            <div class="cc-t">Other ways to reach us</div>
+            <div class="co"><div class="co-ico">📧</div><div><div class="co-l">Email</div><div class="co-v">hello@chillhub.com.my</div></div></div>
+            <div class="co"><div class="co-ico">💬</div><div><div class="co-l">Live Chat</div><div class="co-v">Available on the app, Mon–Fri 9am–6pm</div></div></div>
+            <div class="co"><div class="co-ico">🤖</div><div><div class="co-l">AI Chatbot</div><div class="co-v">24/7 automated support for common questions</div></div></div>
+          </div>
+          <a href="https://wa.me/60123456789" class="wa-btn" target="_blank">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Chat on WhatsApp
+          </a>
+          <div class="cc" style="margin-top:.875rem">
+            <div class="cc-t">Office Hours</div>
+            <div style="font-size:.83rem;color:var(--txt-s);line-height:1.8">
+              Monday – Friday<br>
+              <strong style="color:var(--txt)">9:00 AM – 6:00 PM (MYT)</strong><br><br>
+              <span style="font-size:.77rem;color:var(--txt-m)">Kuala Lumpur, Malaysia (UTC+8)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- /contact -->
+
+</main>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="f-logo"><span>chill</span>hub</div>
+        <div class="f-tag">One system for every part of your business — anywhere, anytime.</div>
+        <div style="display:flex;gap:.625rem;margin-top:1rem">
+          <a href="#" style="width:34px;height:34px;border-radius:7px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);font-size:.85rem;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.15)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">in</a>
+          <a href="#" style="width:34px;height:34px;border-radius:7px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);font-size:.85rem;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.15)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">f</a>
+          <a href="#" style="width:34px;height:34px;border-radius:7px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);font-size:.85rem;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.15)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">ig</a>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-t">Product</div>
+        <div class="f-links">
+          <a href="#">Features</a>
+          <a href="#">Pricing</a>
+          <a href="#">What's New</a>
+          <a href="#">Roadmap</a>
+          <a href="#">Integrations</a>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-t">Company</div>
+        <div class="f-links">
+          <a href="#">About Us</a>
+          <a href="#">Blog</a>
+          <a href="#">Careers</a>
+          <a href="#">Contact</a>
+          <a href="#">Partners</a>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-t">Support</div>
+        <div class="f-links">
+          <a href="#">Help Center</a>
+          <a href="#">FAQ</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Status</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-btm">
+      <span>© 2025 Chillhub Sdn Bhd. All rights reserved. · Kuala Lumpur, Malaysia</span>
+      <span>Made with ♥ for Malaysian businesses</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ──── Page Navigation ──── */
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ──── Workflow Tabs ──── */
+function switchWF(btn, panelId) {
+  document.querySelectorAll('.wf-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.wf-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+/* ──── Features Tabs ──── */
+function switchFeat(btn, panelId) {
+  document.querySelectorAll('.ft-btn').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.fp').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+/* ──── FAQ Toggle ──── */
+function toggleFAQ(btn) {
+  const item = btn.closest('.faq-item');
+  item.classList.toggle('open');
+}
+function filterFAQ(btn, cat) {
+  document.querySelectorAll('.fc-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.faq-item').forEach(item => {
+    if (cat === 'all' || item.dataset.cat === cat) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+
+/* ──── Pricing Calculator ──── */
+function calcUpdate() {
+  const users = parseInt(document.getElementById('user-slider').value);
+  const bundle = document.getElementById('cb-bundle').checked;
+  const storage = document.getElementById('cb-storage').checked;
+  const userLabel = users === 1 ? '1 user' : users + ' users';
+  document.getElementById('user-val').textContent = userLabel;
+  let userCost = 0;
+  let userCount = users - 1;
+  let userBundles = Math.ceil(userCount / 10);
+  if (userCount > 0) userCost = userBundles * 20;
+  const usersRow = document.getElementById('ct-users-row');
+  const bundleRow = document.getElementById('ct-bundle-row');
+  const storageRow = document.getElementById('ct-storage-row');
+  if (userCost > 0) {
+    usersRow.style.display = '';
+    document.getElementById('ct-users-label').textContent = '+' + (userBundles * 10) + ' sub-users';
+    document.getElementById('ct-users-val').textContent = 'RM ' + userCost;
+  } else {
+    usersRow.style.display = 'none';
+  }
+  bundleRow.style.display = bundle ? '' : 'none';
+  storageRow.style.display = storage ? '' : 'none';
+  const total = 49 + userCost + (bundle ? 15 : 0) + (storage ? 7 : 0);
+  document.getElementById('ct-total').textContent = 'RM ' + total;
+  const usd = Math.round(total / 4.7);
+  document.getElementById('ct-compare').textContent = '≈ USD' + usd + '/month · Jobber charges USD299+ for a similar team';
+}
+
+/* ──── Screenshot Showcase ──── */
+const ssCaptions = {
+  'ss-dashboard': 'Real-Time Dashboard',
+  'ss-schedule':  'Job Scheduling',
+  'ss-einvoice':  'Invoicing + LHDN e-Invoice',
+  'ss-docs':      'Document Generation',
+  'ss-finance':   'Financial Reports',
+  'ss-expense':   'Smart Expense Control'
+};
+
+function switchSS(btn, imgId) {
+  // Update tabs
+  document.querySelectorAll('.ss-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  // Fade out current, fade in new
+  const screen = document.getElementById('ss-screen');
+  const imgs = screen.querySelectorAll('img');
+  imgs.forEach(img => {
+    if (img.id === imgId) {
+      img.classList.remove('ss-hidden');
+      img.classList.add('ss-active');
+    } else {
+      img.classList.remove('ss-active');
+      img.classList.add('ss-hidden');
+    }
+  });
+  // Update caption
+  document.getElementById('ss-caption').textContent = ssCaptions[imgId] || '';
+}
+
+/* Auto-cycle screenshots every 4 seconds when no interaction */
+const ssOrder = ['ss-dashboard','ss-schedule','ss-einvoice','ss-docs','ss-finance','ss-expense'];
+let ssCurrent = 0;
+let ssTimer = null;
+
+function startSSAuto() {
+  ssTimer = setInterval(() => {
+    ssCurrent = (ssCurrent + 1) % ssOrder.length;
+    const nextId = ssOrder[ssCurrent];
+    const tabs = document.querySelectorAll('.ss-tab');
+    switchSS(tabs[ssCurrent], nextId);
+  }, 4000);
+}
+
+function stopSSAuto() {
+  if (ssTimer) { clearInterval(ssTimer); ssTimer = null; }
+}
+
+document.querySelectorAll('.ss-tab').forEach((tab, i) => {
+  tab.addEventListener('mouseenter', () => { stopSSAuto(); });
+  tab.addEventListener('mouseleave', () => { startSSAuto(); });
+});
+
+startSSAuto();
+</script>
+</body>
+</html>
