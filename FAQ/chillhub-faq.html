@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — Chillhub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#4d8bbc; --blue-h:#3a6d96; --blue-lt:#e8f2f9; --blue-md:#a8c9e0;
+  --blue-dark:#2d5578;
+  --green:#3d7a47; --green-lt:#e8f4ea;
+  --txt:#1e2d3d; --txt-s:#5a6e7e; --txt-m:#96aab8;
+  --bdr:#dce8f0; --bg:#fff; --bg1:#f4f8fc; --bg2:#e8f1f8;
+  --sh1:0 2px 8px rgba(77,139,188,.09),0 1px 3px rgba(0,0,0,.04);
+  --grad:linear-gradient(140deg,#2d5578 0%,#3a6d96 40%,#4d8bbc 80%,#7aadcc 100%);
+  --ff:'DM Sans',sans-serif; --fh:'Outfit',sans-serif; --fm:'DM Mono',monospace;
+  --nav:60px; --cw:900px;
+  --r8:8px; --r10:10px; --r12:12px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--ff);color:var(--txt);background:var(--bg);-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav);background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--bdr);display:flex;align-items:center}
+.nav-i{max-width:1120px;margin:0 auto;padding:0 2rem;width:100%;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:var(--fh);font-size:1.3rem;font-weight:800;letter-spacing:-.03em;color:var(--txt)}
+.nav-logo span{color:var(--blue)}
+.nav-links{display:flex;gap:.25rem}
+.nav-links a{font-size:.855rem;font-weight:500;color:var(--txt-s);padding:.375rem .875rem;border-radius:6px;transition:all .15s;text-decoration:none}
+.nav-links a:hover{color:var(--txt);background:var(--bg1)}
+.nav-links a.active{color:var(--blue);font-weight:600;background:var(--bg1)}
+.btn-teal{display:inline-flex;align-items:center;gap:.375rem;background:#1dc99b;color:white;font-family:var(--ff);font-size:.875rem;font-weight:600;padding:.5rem 1.125rem;border-radius:var(--r8);border:none;cursor:pointer;line-height:1;text-decoration:none}
+
+/* HERO */
+.page-hero{padding:5rem 0 3.5rem;background:var(--grad);position:relative;overflow:hidden;margin-top:var(--nav)}
+.page-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.1) 1px,transparent 1px);background-size:24px 24px;pointer-events:none}
+.container{max-width:var(--cw);margin:0 auto;padding:0 2rem}
+.lbl{font-family:var(--fm);font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.75);background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:100px;display:inline-block;padding:.2rem .75rem;margin-bottom:.625rem}
+.page-hero h1{font-family:var(--fh);font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:700;letter-spacing:-.035em;line-height:1.15;color:white;margin-bottom:.75rem}
+.page-hero p{font-size:.95rem;color:rgba(255,255,255,.78);line-height:1.7;max-width:560px}
+.page-hero a{color:rgba(255,255,255,.9);text-decoration:underline}
+
+/* CONTENT */
+.faq-content{padding:3.5rem 0 5rem}
+
+/* CATEGORY FILTER */
+.faq-cats{display:flex;gap:.375rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.fc-btn{font-size:.8rem;font-weight:500;padding:.4rem .95rem;border-radius:var(--r8);border:1px solid var(--bdr);background:var(--bg);color:var(--txt-s);cursor:pointer;transition:all .15s;font-family:var(--ff)}
+.fc-btn:hover{border-color:var(--blue-md);color:var(--blue);background:var(--blue-lt)}
+.fc-btn.active{background:var(--blue);color:white;border-color:var(--blue)}
+
+/* CATEGORY LABEL */
+.cat-label{font-family:var(--fm);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-m);padding:.6rem 0 .4rem;margin-top:1.5rem;display:none}
+.cat-label.visible{display:block}
+
+/* FAQ ACCORDION */
+.faq-item{border-bottom:1px solid var(--bdr)}
+.faq-item:first-child{border-top:1px solid var(--bdr)}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:1rem 0;background:none;border:none;text-align:left;font-family:var(--ff);font-size:.92rem;font-weight:600;color:var(--txt);cursor:pointer;gap:1rem;transition:color .15s}
+.faq-q:hover{color:var(--blue)}
+.faq-arr{font-size:.65rem;color:var(--txt-m);transition:transform .2s;flex-shrink:0}
+.faq-item.open .faq-arr{transform:rotate(180deg)}
+.faq-item.open .faq-q{color:var(--blue)}
+.faq-a{font-size:.88rem;color:var(--txt-s);line-height:1.8;padding-bottom:1rem;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-a strong{color:var(--txt);font-weight:600}
+.faq-a ul{padding-left:1.25rem;margin:.375rem 0}
+.faq-a ul li{margin-bottom:.25rem}
+.faq-a .step{display:flex;gap:.625rem;margin-bottom:.5rem;align-items:flex-start}
+.faq-a .step-n{width:20px;height:20px;border-radius:50%;background:var(--blue);color:white;font-family:var(--fm);font-size:.6rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.faq-a code{font-family:var(--fm);font-size:.8rem;background:var(--bg1);border:1px solid var(--bdr);padding:.1rem .35rem;border-radius:4px;color:var(--blue)}
+.faq-a .note{background:var(--bg1);border:1px solid var(--bdr);border-left:3px solid var(--blue);border-radius:0 var(--r8) var(--r8) 0;padding:.625rem .875rem;margin-top:.75rem;font-size:.82rem;color:var(--txt-s)}
+
+/* WIKI CTA */
+.wiki-cta{margin-top:3rem;background:var(--blue-lt);border:1px solid var(--blue-md);border-radius:var(--r12);padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+.wiki-cta-text h3{font-family:var(--fh);font-size:1rem;font-weight:700;margin-bottom:.25rem}
+.wiki-cta-text p{font-size:.875rem;color:var(--txt-s)}
+.btn-outline{display:inline-flex;align-items:center;gap:.375rem;background:transparent;color:var(--blue);border:1.5px solid var(--blue-md);font-family:var(--ff);font-size:.875rem;font-weight:600;padding:.625rem 1.25rem;border-radius:var(--r8);cursor:pointer;text-decoration:none;transition:all .15s}
+.btn-outline:hover{background:var(--blue-lt);border-color:var(--blue);text-decoration:none}
+
+/* FOOTER */
+footer{background:#162233;color:rgba(255,255,255,.45);padding:1.75rem 0;text-align:center;font-size:.78rem}
+footer span{color:var(--blue)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-i">
+    <a class="nav-logo" href="#"><span>chill</span>hub</a>
+    <div class="nav-links">
+      <a href="#">Features</a>
+      <a href="#">Pricing</a>
+      <a href="#">About</a>
+      <a href="#" class="active">FAQ</a>
+    </div>
+    <a href="https://app.chillhub.com.my" class="btn-teal">Start free trial</a>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="lbl">FAQ</div>
+    <h1>Frequently asked questions</h1>
+    <p>Browse answers below or visit our <a href="https://wiki.chillhub.com.my" target="_blank">Knowledge Base</a> for full step-by-step guides, screenshots, and tutorials.</p>
+  </div>
+</section>
+
+<section class="faq-content">
+  <div class="container">
+
+    <!-- FILTER BUTTONS -->
+    <div class="faq-cats">
+      <button class="fc-btn active" onclick="filterFAQ(this,'all')">All</button>
+      <button class="fc-btn" onclick="filterFAQ(this,'general')">General</button>
+      <button class="fc-btn" onclick="filterFAQ(this,'sales')">Sales</button>
+      <button class="fc-btn" onclick="filterFAQ(this,'einvoice')">e-Invoice</button>
+      <button class="fc-btn" onclick="filterFAQ(this,'purchase')">Purchase</button>
+      <button class="fc-btn" onclick="filterFAQ(this,'inventory')">Inventory &amp; Stock</button>
+      <button class="fc-btn" onclick="filterFAQ(this,'customer')">Customer</button>
+      <button class="fc-btn" onclick="filterFAQ(this,'signature')">Signature</button>
+      <button class="fc-btn" onclick="filterFAQ(this,'jobs')">Jobs &amp; Scheduling</button>
+      <button class="fc-btn" onclick="filterFAQ(this,'accounting')">Accounting</button>
+      <button class="fc-btn" onclick="filterFAQ(this,'users')">Sub-Users</button>
+      <button class="fc-btn" onclick="filterFAQ(this,'setup')">System Setup</button>
+    </div>
+
+    <!-- ══ GENERAL ══ -->
+    <div class="cat-label" data-for="general">General</div>
+
+    <div class="faq-item" data-cat="general">
+      <button class="faq-q" onclick="toggleFAQ(this)">How can I track who made changes to records and when? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Go to <strong>Main Menu → Operational Data → Audit Trail</strong>. Add one or more criteria to filter results:
+        <ul>
+          <li><strong>Date From/To</strong> — Activities within a specific date range</li>
+          <li><strong>Entity Type</strong> — Type of record (e.g. Invoice, Sales Order, Product)</li>
+          <li><strong>Action</strong> — Type of activity (Create, Update, Delete)</li>
+          <li><strong>Username</strong> — User who performed the action</li>
+          <li><strong>Transaction Ref.</strong> — Reference number of the related document</li>
+          <li><strong>Changes</strong> — Details of what was modified</li>
+        </ul>
+        Click <strong>Search</strong> to view matching audit trail records.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="general">
+      <button class="faq-q" onclick="toggleFAQ(this)">How many decimal places does Chillhub support? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <ul>
+          <li><strong>Purchase Invoice Item Unit Price</strong> — up to 6 decimal places</li>
+          <li><strong>Item quantities</strong> — up to 4 decimal places</li>
+          <li><strong>Monetary fields</strong> (totals, amounts) — up to 2 decimal places</li>
+        </ul>
+        <div class="note">Purchase Invoice Item Unit Price supports 6 decimals to handle rounding when allocating supplier invoice amounts across items.</div>
+      </div>
+    </div>
+
+    <!-- ══ SALES ══ -->
+    <div class="cat-label" data-for="sales">Sales</div>
+
+    <div class="faq-item" data-cat="sales">
+      <button class="faq-q" onclick="toggleFAQ(this)">What is the difference between Product, Product Type, Service, and Custom? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <ul>
+          <li><strong>Product</strong> — Specific goods, items, or parts offered by the organisation</li>
+          <li><strong>Product Type</strong> — Used when the specific product model is unknown or not tracked in the system</li>
+          <li><strong>Service</strong> — Additional charges or non-physical offerings your company provides</li>
+          <li><strong>Custom</strong> — Free-text entry for items not covered by predefined master data</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="sales">
+      <button class="faq-q" onclick="toggleFAQ(this)">What can I do if a quotation has already been confirmed? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Go to <strong>Quotation Page</strong> → click the Options button on the confirmed quotation → choose:
+        <ul>
+          <li><strong>Create/Edit Sales Order</strong> — for confirmed orders</li>
+          <li><strong>Create/Edit Invoice</strong> — to proceed with billing</li>
+        </ul>
+        Review the details, Save. The quotation status will update to <strong>Accepted</strong>.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="sales">
+      <button class="faq-q" onclick="toggleFAQ(this)">How to check if an invoice or sales order is scheduled? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Go to the <strong>Invoice / Sales Order Page</strong> and check the <strong>"Scheduled"</strong> column. A ✅ tick indicates the invoice/sales order has a scheduled job linked to it.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="sales">
+      <button class="faq-q" onclick="toggleFAQ(this)">How can I check if a sales order has already been invoiced? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Go to <strong>Sales Order Page</strong> → check the <strong>"Invoice No."</strong> column.
+        <ul>
+          <li>If Invoice No. is <strong>empty</strong> → no invoice has been created yet</li>
+          <li>If Invoice No. <strong>exists</strong> → an invoice has already been created</li>
+        </ul>
+        A sales order that has been invoiced cannot be edited. If changes are required, update the corresponding invoice instead.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="sales">
+      <button class="faq-q" onclick="toggleFAQ(this)">How to issue an invoice in a foreign currency? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        You must activate the <strong>Multi-Currency add-on</strong> first (included in the Advanced Capability Bundle, +RM15/month).
+        <ul>
+          <li>New invoice → expand <strong>More Information</strong> → select foreign <strong>Currency</strong></li>
+          <li>Click the fetch button to get the latest rate from <strong>Bank Negara Malaysia</strong>, or enter your own rate</li>
+          <li>Unit prices and payments are available in both local and foreign currencies</li>
+          <li>Any exchange rate difference on payment is auto-calculated as <strong>Forex Gain/Loss</strong></li>
+        </ul>
+        The same applies to Quotations, Sales Orders, and Expenses.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="sales">
+      <button class="faq-q" onclick="toggleFAQ(this)">How to manage progressive (partial) payment? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Go to <strong>Invoice Page</strong> → click Options on the specific invoice → select <strong>Payment tab</strong> → click <strong>+ New</strong> → enter payment amount, date, and method. If the amount is less than the invoice total, the invoice status will show <strong>"Partial"</strong>.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="sales">
+      <button class="faq-q" onclick="toggleFAQ(this)">What is the difference between "Save and Close" and "Save and Continue"? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Both options save the document.
+        <ul>
+          <li><strong>Save &amp; Close</strong> — Saves and closes the form. No further action needed.</li>
+          <li><strong>Save &amp; Continue</strong> — Saves but keeps the form open for further editing or additional actions.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="sales">
+      <button class="faq-q" onclick="toggleFAQ(this)">What is the difference between Total Revenue, Total Billed, Total Unbilled, and Total Sales in the Dashboard? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <strong>Monthly Sales Metrics:</strong>
+        <ul>
+          <li><strong>Total Billed</strong> = Total issued invoices and their Credit/Debit Note adjustments</li>
+          <li><strong>Total Unbilled</strong> = Sales Orders where invoices have not yet been issued</li>
+          <li><strong>Total Sales</strong> = Total Billed + Total Unbilled</li>
+        </ul>
+        <strong>Monthly Financial Metrics:</strong>
+        <ul>
+          <li><strong>Total Revenue</strong> = Total Billed Invoices + Credit &amp; Debit Notes + Other Income within the selected month</li>
+        </ul>
+        <div class="note">Timing differences may occur. For example, a March invoice with an April Debit Note will be included in Total Billed (March), but the Debit Note posts to Total Revenue (April).</div>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="sales">
+      <button class="faq-q" onclick="toggleFAQ(this)">There is a stock return from a customer — what should I do? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        A stock return involves three steps. Open the invoice (Invoice Page → Options).
+        <br><br>
+        <strong>Part 1 — Return the stock:</strong> Delivery tab → Add More → New Return Note → enter date &amp; return quantity → select warehouse in <em>Auto Return To</em> → Save.
+        <br><br>
+        <strong>Part 2 — Adjust the invoice:</strong> Adjustment tab → New → select <strong>Credit</strong> → enter credit amount → enter description → set New Qty for each item → Save Credit Note.
+        <br><br>
+        <strong>Part 3 — Refund payment:</strong> Payment tab → New → enable <strong>Refund</strong> checkbox → enter refund amount → review Cash Account → Save.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="sales">
+      <button class="faq-q" onclick="toggleFAQ(this)">There is an item addition or change for a customer — what should I do? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Open the invoice (Invoice Page → Options).
+        <br><br>
+        <strong>Part 1 — Add the product:</strong> Items tab → New → add the product (leave quantity and price blank initially).
+        <br><br>
+        <strong>Part 2 — Record delivery changes:</strong> Delivery tab → New → enter date &amp; qty for the new item → select warehouse in <em>Auto ship from</em>. To return wrong item: Add More → New Return Note.
+        <br><br>
+        <strong>Part 3 — Adjust the invoice:</strong> Adjustment tab → New → select <strong>Debit</strong> → enter debit amount → update New Qty for each item (set 0 for old item) → Save.
+      </div>
+    </div>
+
+    <!-- ══ e-INVOICE ══ -->
+    <div class="cat-label" data-for="einvoice">Invoice Issuance &amp; e-Invoice Submission</div>
+
+    <div class="faq-item" data-cat="einvoice">
+      <button class="faq-q" onclick="toggleFAQ(this)">Customer does not provide information — how to submit e-Invoice? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <strong>Partial info available:</strong> Fill in available fields, enter "NA" for missing ones → enable <em>Submit as Consolidated e-Invoice</em> in the LHDN e-Invoice section → Save normally.
+        <br><br>
+        <strong>No info available:</strong> Enable <em>Anonymous Sales</em> (customer fields disabled) → Save. Transaction will be auto-submitted as Consolidated e-Invoice to LHDN.
+        <div class="note">If the customer is a B2B business requesting an e-Invoice, full customer details must be obtained before submission.</div>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="einvoice">
+      <button class="faq-q" onclick="toggleFAQ(this)">How does Chillhub facilitate consolidated e-Invoice submission? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Chillhub submits all consolidated e-Invoices individually, with automatic submission scheduled <strong>7 days</strong> after the invoice is issued. This gives you a window to convert it to an individual e-Invoice if the customer later requests one.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="einvoice">
+      <button class="faq-q" onclick="toggleFAQ(this)">I issued an invoice with Consolidated e-Invoice enabled. How can I edit it? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <strong>Before it is submitted (within 7 days of issuance):</strong> Edit the invoice normally → complete customer details → disable <em>Submit as Consolidated e-Invoice</em> → Save.
+        <br><br>
+        <strong>Already submitted, within 72 hours:</strong> Cancel the invoice → issue a new invoice with updated information.
+        <br><br>
+        <strong>Already submitted, after 72 hours:</strong> Issue a <strong>Credit Note</strong> to reverse the original → issue a new invoice with updated information.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="einvoice">
+      <button class="faq-q" onclick="toggleFAQ(this)">Customer provided incorrect information and I already submitted the e-Invoice. How to edit? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <strong>Within 72 hours of LHDN validation:</strong> Cancel the invoice → issue a new invoice with the correct information.
+        <br><br>
+        <strong>After 72 hours:</strong> Issue a <strong>Credit Note</strong> to reverse the original invoice → issue a new invoice with the correct information.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="einvoice">
+      <button class="faq-q" onclick="toggleFAQ(this)">Why am I unable to edit an invoice after saving it as Issued? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        An invoice is a legal document. Once saved as Issued, it becomes a formal financial record. Modifying it after it has been sent to a customer or reported to tax authorities may cause compliance issues. Changes must be made through proper adjustments — issuing a <strong>Credit Note</strong> or cancelling the invoice (within 72 hours of LHDN validation).
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="einvoice">
+      <button class="faq-q" onclick="toggleFAQ(this)">After how many days can I no longer cancel an invoice and must issue a credit note? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        According to the <a href="https://www.hasil.gov.my/media/fzagbaj2/irbm-e-invoice-guideline.pdf" target="_blank">LHDN e-Invoice guidelines (section 2.3.6)</a>, cancellations can only occur within <strong>72 hours of validation</strong>. After this period, adjustments must be made through a Debit or Credit Note — not by modifying the original e-Invoice directly.
+      </div>
+    </div>
+
+    <!-- ══ PURCHASE ══ -->
+    <div class="cat-label" data-for="purchase">Purchase</div>
+
+    <div class="faq-item" data-cat="purchase">
+      <button class="faq-q" onclick="toggleFAQ(this)">If I receive a purchase invoice from a supplier, should I key it via the Purchase Invoice module or as an Expense? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <strong>Inventory-related items (stock):</strong> Use the <strong>Purchase module</strong>. Purchase Delivery updates quantity on hand; Purchase Invoice posts unit cost to the Inventory Account. When sold, cost is recognised under COGS using FIFO valuation.
+        <br><br>
+        <strong>Non-inventory items:</strong> Use the <strong>Expenses module</strong>. Record under Cost of Goods Sold or the relevant expense account.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="purchase">
+      <button class="faq-q" onclick="toggleFAQ(this)">How to record purchase orders, purchase delivery, and purchase invoices? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <strong>Step 1 — Create Purchase Order (Procurement Team):</strong> Purchase Order Page → New → enter date and supplier → Items tab → add products with qty &amp; price → View Document (send to supplier) → Save.
+        <br><br>
+        <strong>Step 2 — Record Stock Arrival (Warehouse Team):</strong> Open PO → Delivery tab → New → enter Delivery Note No. and date from supplier → enter Qty to Deliver → select warehouse in <em>Auto Replenish To</em> → Save.
+        <br><br>
+        <strong>Step 3 — Key in Purchase Invoice (Finance Team):</strong> Open PO → Invoice tab → New → enter supplier Invoice No. and date → enter quantity and unit price per item → Apply → Save.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="purchase">
+      <button class="faq-q" onclick="toggleFAQ(this)">What are the differences between Purchase Order, Purchase Delivery, and Purchase Invoice? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <ul>
+          <li><strong>Purchase Order</strong> (Procurement Team) — Confirms intent to buy. No stock or accounting entry yet. Calculates <em>Open P/O Qty</em> in Inventory.</li>
+          <li><strong>Purchase Delivery</strong> (Warehouse Team) — Records actual goods received. Updates inventory quantity on hand for accurate stock levels.</li>
+          <li><strong>Purchase Invoice</strong> (Finance Team) — Records supplier billing details and actual item cost. Posts accounting entries for correct valuation and reporting.</li>
+        </ul>
+        <div class="note">Supplier invoices may arrive after the goods. The separation ensures operational control (PO), inventory accuracy (Delivery), and financial correctness (Invoice) — each department manages its own responsibility.</div>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="purchase">
+      <button class="faq-q" onclick="toggleFAQ(this)">How to handle a decimal rounding issue in purchase invoice items? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        This happens when the total invoice amount cannot be evenly divided across item unit costs.
+        <br><br>
+        <strong>Option A — Use more decimal places:</strong> Enter unit price up to <strong>6 decimal places</strong> so the rounded total (2 decimals) matches the supplier invoice. Example: RM 33.3333 × 3 = RM 100.00.
+        <br><br>
+        <strong>Option B — Split items:</strong> Click the split button on an item, divide qty into parts (e.g. 3 = 2 + 1), assign slightly different unit prices so the total matches. Example: 2 units @ RM 33.33 + 1 unit @ RM 33.34 = RM 100.00.
+      </div>
+    </div>
+
+    <!-- ══ INVENTORY ══ -->
+    <div class="cat-label" data-for="inventory">Inventory &amp; Stock</div>
+
+    <div class="faq-item" data-cat="inventory">
+      <button class="faq-q" onclick="toggleFAQ(this)">What do the different quantity values mean in the Inventory Page? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <ul>
+          <li><strong>Qty On-hand</strong> — Actual physical quantity in stock</li>
+          <li><strong>Qty Available</strong> — On-hand minus reserved stock (where no delivery note created yet from SOs/Invoices)</li>
+          <li><strong>Pending Shipment</strong> — Delivery note created for outgoing, but not yet dispatched</li>
+          <li><strong>Pending Replenishment</strong> — Incoming delivery note created, but goods not yet received</li>
+          <li><strong>Open P/O Qty</strong> — Quantity on open purchase orders awaiting fulfillment</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="inventory">
+      <button class="faq-q" onclick="toggleFAQ(this)">How to manage products in different packages or units (UOM)? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <strong>Step 1:</strong> Activate the <strong>Advanced Capability Bundle</strong> add-on (User Menu → Subscription).
+        <br><br>
+        <strong>Step 2:</strong> Set up UOM Conversion — Main Menu → Master Data → UOM Conversion → New → define name, Alternate UOM (e.g. Twin Pack), and Conversion Factor (e.g. 2).
+        <br><br>
+        <strong>Step 3:</strong> Link to product — Master Data → Product → assign the UOM Conversion → Save.
+        <br><br>
+        <strong>Step 4:</strong> When creating Quotation/SO/Invoice, select the alternate UOM per line item. Inventory is deducted based on the conversion factor automatically.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="inventory">
+      <button class="faq-q" onclick="toggleFAQ(this)">How to record serial numbers when shipping and receiving items? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        First, create a Delivery Note from the PO/SO/Invoice form (Delivery tab → New → enter date and qty → Apply → Save).
+        <br><br>
+        Then access the shipping/replenish form (from Inventory page, document Options, or Main Menu → Ship/Replenish). Click the edit button, enter Qty to Deliver per warehouse.
+        <br><br>
+        At the bottom of the shipping form, enter serial numbers using:
+        <ul>
+          <li>📷 Camera scan on mobile for barcode input</li>
+          <li>Manual typing (or external barcode scanner)</li>
+          <li>Copy-paste from a spreadsheet</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="inventory">
+      <button class="faq-q" onclick="toggleFAQ(this)">Why does the cost status show "Shortage"? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        A cost shortage occurs when purchase invoices have not yet been entered — the system cannot determine the item's actual cost. Once the purchase invoice is available, <strong>re-save the sales invoice</strong> to trigger recalculation. Alternatively: <strong>Invoice Page → More Actions → Update Cost Status</strong> to recalculate all Shortage-status invoices within the selected month.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="inventory">
+      <button class="faq-q" onclick="toggleFAQ(this)">What does "Calculated" mean in cost status? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        "Calculated" means the system has determined the <strong>Cost of Goods Sold (COGS)</strong> using perpetual inventory:
+        <ul>
+          <li>Upon receiving purchase invoices → item purchase value posted to <strong>Inventory Account</strong></li>
+          <li>When sales invoices are issued → cost transferred from Inventory Account to <strong>COGS</strong> using <strong>FIFO</strong> (First-In, First-Out) valuation</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="inventory">
+      <button class="faq-q" onclick="toggleFAQ(this)">What is non-billable consumption, and why use it? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Non-billable consumption deducts materials from inventory <strong>without charging the customer</strong> or showing the item on any invoice. It applies to <strong>Product</strong> items only — price cannot be set, but stock quantity on hand is still reduced on delivery. Use this to track <strong>internal usage of stock</strong> (e.g. materials used in-house).
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="inventory">
+      <button class="faq-q" onclick="toggleFAQ(this)">Stock quantity not deducted after a sale — what should I check? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Check the <strong>Delivery Status</strong> of the invoice/sales order:
+        <br><br>
+        <strong>Status = "None" (no delivery note created):</strong> Edit invoice/SO → Delivery tab → New → enter date and Qty to Deliver → select warehouse in <em>Auto ship from</em> → Save.
+        <br><br>
+        <strong>Status = "Ready" (delivery note exists, not yet shipped):</strong> Edit invoice/SO → Delivery tab → select warehouse in <em>Auto ship from</em> → Save.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="inventory">
+      <button class="faq-q" onclick="toggleFAQ(this)">Stock quantity not added after a purchase — what should I check? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Check the <strong>Delivery Status</strong> of the purchase order:
+        <br><br>
+        <strong>Status = "None" (no delivery note created):</strong> Edit PO → Delivery tab → New → enter Delivery Note No., date, and Qty to Deliver → select warehouse in <em>Auto replenish to</em> → Save.
+        <br><br>
+        <strong>Status = "In Transit" (delivery note exists, not replenished):</strong> Edit PO → Delivery tab → select warehouse in <em>Auto replenish to</em> → Save.
+      </div>
+    </div>
+
+    <!-- ══ CUSTOMER ══ -->
+    <div class="cat-label" data-for="customer">Customer</div>
+
+    <div class="faq-item" data-cat="customer">
+      <button class="faq-q" onclick="toggleFAQ(this)">Why does the customer name not show up in the selection field? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Enter <strong>at least 3 characters</strong> of the customer name to trigger the search. You can also search using the customer's phone number, address, or identification numbers.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="customer">
+      <button class="faq-q" onclick="toggleFAQ(this)">How can I check the outstanding payment for a customer? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <strong>Main Menu → Accounting → Debtor</strong> → Search for the customer → click the Options button → enter date range → click <strong>Fetch Data</strong> → click <strong>View Document</strong>. You can then share, download, or print the statement.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="customer">
+      <button class="faq-q" onclick="toggleFAQ(this)">If a customer wants to change their information, where should I do it? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <strong>Main Menu → Operational Data → Customer</strong> → Search for the customer → click the Options button → edit details → Save.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="customer">
+      <button class="faq-q" onclick="toggleFAQ(this)">If a customer's billing address and delivery address are different, what should I do? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        When creating/editing Invoice, Sales Order, Scheduling, or Quotation — go to the <strong>Delivery tab</strong> (next to Billing) under the Customer panel → enable <strong>"Different from billing info"</strong> → enter the delivery-specific fields. This is reflected in Delivery Notes, Scheduling Calendar, and Pending Jobs on the Dashboard.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="customer">
+      <button class="faq-q" onclick="toggleFAQ(this)">How do I enter customer information in Chillhub? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        On any Invoice, Sales Order, Scheduling, or Quotation form, go to the <strong>Customer panel</strong>:
+        <ul>
+          <li><strong>Anonymous Sales</strong> — Enable for walk-in customers. Consolidated e-Invoice submitted 7 days after issuance.</li>
+          <li><strong>Company (Business)</strong> — Enter TIN, Business Registration No., SST No. Click the fetch button to auto-retrieve TIN from BRN. Can also scan the Taxpayer QR Code from MyInvois App.</li>
+          <li><strong>Individual</strong> — Enter NRIC or Passport No. Enable <em>Use Default TIN</em> if applicable.</li>
+          <li>If incomplete and e-Invoice not required — enter "NA" for unknown fields and enable <em>Submit as Consolidated e-Invoice</em>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="customer">
+      <button class="faq-q" onclick="toggleFAQ(this)">How can I search for customer records or transactions? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Click the <strong>Search button</strong> on the main toolbar → select one or more criteria (Customer/Supplier, Contact No., Invoice No., Product) → enter keywords. Results show matching records across Purchase Orders, Invoices, Sales Orders, Quotations, and Jobs — all from a single search.
+      </div>
+    </div>
+
+    <!-- ══ SIGNATURE ══ -->
+    <div class="cat-label" data-for="signature">Signature</div>
+
+    <div class="faq-item" data-cat="signature">
+      <button class="faq-q" onclick="toggleFAQ(this)">How can I capture a customer's signature on a Delivery Note? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Open the Delivery Note document (accessible from Pending Jobs/Scheduling page, Shipping page, or Invoice/SO form → Delivery tab) → click <strong>View Document</strong> → click the <strong>Signature button</strong> → customer signs → optionally enter customer name → click <strong>Save</strong>. The captured signature appears on the Signature line in the document.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="signature">
+      <button class="faq-q" onclick="toggleFAQ(this)">How can I capture a customer's signature on a Job Completion Note? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Open the Job Completion Note document (accessible from Pending Jobs/Scheduling page, or Invoice/SO form → Job Completion tab) → click <strong>View Document</strong> → click the <strong>Signature button</strong> → customer signs → optionally enter name → click <strong>Save</strong>.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="signature">
+      <button class="faq-q" onclick="toggleFAQ(this)">How do I set up signature lines on Delivery and Job Completion Notes? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <strong>User Menu → Settings</strong> → expand <strong>Delivery Note</strong>, <strong>Return Note</strong>, or <strong>Job Completion Note</strong> → click <strong>Insert Signature Placeholder</strong> button. The placeholder <code>&#123;&#123;signature&#125;&#125;</code> will be added to the Footer template → click <strong>Save</strong>.
+      </div>
+    </div>
+
+    <!-- ══ JOBS & SCHEDULING ══ -->
+    <div class="cat-label" data-for="jobs">Jobs &amp; Scheduling</div>
+
+    <div class="faq-item" data-cat="jobs">
+      <button class="faq-q" onclick="toggleFAQ(this)">How can I know if employees have uploaded media files for scheduled jobs? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Go to the <strong>Scheduling page</strong>:
+        <ul>
+          <li><strong>Calendar View</strong> — Look for an attachment icon on the job entries (nodes)</li>
+          <li><strong>List View</strong> — Check the Attachment column</li>
+        </ul>
+        Icon shown = one or more media files uploaded. No icon = no files uploaded for that job.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="jobs">
+      <button class="faq-q" onclick="toggleFAQ(this)">How can I create a recurring job? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Go to <strong>Scheduling page</strong> → select the job (Calendar or List view) → Options → click <strong>Repeat</strong>.
+        <br><br>
+        Set recurrence details:
+        <ul>
+          <li><strong>Start Date</strong> and <strong>End Date</strong></li>
+          <li><strong>Frequency</strong> — Daily / Weekly (select weekdays) / Monthly (select days)</li>
+          <li><strong>Every</strong> — Define interval (e.g. every 2 weeks)</li>
+        </ul>
+        Click <strong>Generate Job</strong> → review and modify generated jobs → click <strong>Save</strong> to create all recurring jobs.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="jobs">
+      <button class="faq-q" onclick="toggleFAQ(this)">How can I set a repeated schedule for one invoice or sales order? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Invoice/Sales Order Page → Options → select <strong>Schedule</strong> to view existing jobs. If none exists, click <strong>New</strong> to create. To clone an existing job:
+        <ul>
+          <li><strong>Copy</strong> — Manually create another job with a new date/time</li>
+          <li><strong>Repeat</strong> — Define a recurrence pattern; system auto-generates scheduled jobs</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ══ ACCOUNTING ══ -->
+    <div class="cat-label" data-for="accounting">Accounting</div>
+
+    <div class="faq-item" data-cat="accounting">
+      <button class="faq-q" onclick="toggleFAQ(this)">How can I perform bank reconciliation? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <strong>Main Menu → Accounting → Bank Reconciliation</strong> → select <strong>Account</strong> and <strong>Month</strong> → click <strong>Fetch Transactions</strong>. Compare each transaction with your bank statement. Tick checkboxes for matched transactions → click <strong>Save</strong> to complete the reconciliation. Use the arrows to navigate between months.
+      </div>
+    </div>
+
+    <!-- ══ SUB-USERS ══ -->
+    <div class="cat-label" data-for="users">Sub-Users</div>
+
+    <div class="faq-item" data-cat="users">
+      <button class="faq-q" onclick="toggleFAQ(this)">How do I enable the Sub-user add-on? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <strong>User Menu → Subscription</strong> → find <em>Add-On: 10 Sub-users</em> → set the <strong>Add-on Quantity</strong> based on how many packs you need:
+        <ul>
+          <li>Qty 1 = up to 10 sub-users</li>
+          <li>Qty 2 = up to 20 sub-users</li>
+          <li>Qty 3 = up to 30 sub-users</li>
+        </ul>
+        Click <strong>Save</strong> to activate.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="users">
+      <button class="faq-q" onclick="toggleFAQ(this)">How do I enable expense claim submission for employees? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <strong>Create a Sub-User Role:</strong> User Menu → Sub Users → Sub-user roles tab → New.
+        <ul>
+          <li>For employees: Business Transaction → Expense → <strong>Self-Service</strong> (can create and submit own expenses only)</li>
+          <li>For approvers: Business Transaction → Expense → <strong>Full Access</strong></li>
+        </ul>
+        <strong>Employee submits:</strong> Expense page → New → upload receipts → fill date, description, amount, reference → Save as <strong>Submitted</strong>.
+        <br><br>
+        <strong>Manager approves:</strong> Expense page → filter by <em>Submitted</em> → open expense → review → Save as <strong>Approved</strong> or <strong>Rejected</strong>.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="users">
+      <button class="faq-q" onclick="toggleFAQ(this)">Can multiple users access Chillhub from different devices at the same time? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Yes — a single account can be logged in and used simultaneously on multiple devices. However, for better control and traceability in a multi-employee environment, it is recommended to create <strong>Sub-Users</strong> with individual credentials and role-based permissions. This allows audit trail tracking, different access levels per employee, and improved security. See the <a href="https://wiki.chillhub.com.my/doku.php?id=subuser" target="_blank">Sub-user setup guide</a>.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="users">
+      <button class="faq-q" onclick="toggleFAQ(this)">What is the recommended sub-user role for technicians or delivery staff? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        <strong>Step 1 — Create Sub-User Role</strong> (User Menu → Sub Users → Sub-user roles → New):
+        <ul>
+          <li>Business Transaction → <strong>Scheduling</strong> → Read-only (view schedules, access DO and job completion notes)</li>
+          <li>Dashboard → <strong>Pending Jobs</strong> → Full Access (start/complete jobs, upload media)</li>
+          <li>Inventory → <strong>Ship</strong> → Read-only (open delivery notes, capture signatures)</li>
+          <li>Business Transaction → <strong>Job Completion Note</strong> → Full Access (create notes, capture signatures)</li>
+          <li>All other features → Lowest access level</li>
+        </ul>
+        <strong>Step 2 — Create Sub-User:</strong> Sub-user tab → New → enter Username &amp; Password → assign employee → select the created role → Save.
+        <br><br>
+        Full guide: <a href="https://wiki.chillhub.com.my/doku.php?id=subuser" target="_blank">wiki.chillhub.com.my → Sub-users</a>
+      </div>
+    </div>
+
+    <!-- ══ SYSTEM SETUP ══ -->
+    <div class="cat-label" data-for="setup">System Setup</div>
+
+    <div class="faq-item" data-cat="setup">
+      <button class="faq-q" onclick="toggleFAQ(this)">I just registered for Chillhub — what should I do for setup? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Check out the <a href="https://wiki.chillhub.com.my/doku.php?id=initial_data" target="_blank">setup guide on our Knowledge Base</a> for step-by-step instructions covering: settings, master data, inventory, pricing, and chart of accounts. This will get your Chillhub account fully ready for daily operations.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="setup">
+      <button class="faq-q" onclick="toggleFAQ(this)">What is the recommended company logo format and size? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Supported formats: <strong>JPEG, PNG, GIF, WebP, SVG, and AVIF</strong>.
+        <ul>
+          <li>Max width: <strong>567 pixels</strong></li>
+          <li>Max height: <strong>132 pixels</strong></li>
+        </ul>
+        If the uploaded logo exceeds these dimensions, it will be automatically resized proportionally. To upload: <strong>User Menu → Settings → General</strong>.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="setup">
+      <button class="faq-q" onclick="toggleFAQ(this)">How can I install the Chillhub app? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Chillhub is a <strong>Progressive Web App (PWA)</strong> — it can be installed on iPhone, Android, and PC browsers for a native app-like experience. For step-by-step installation instructions, visit:<br>
+        <a href="https://wiki.chillhub.com.my/doku.php?id=app_installation" target="_blank">wiki.chillhub.com.my → App Installation</a>
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="setup">
+      <button class="faq-q" onclick="toggleFAQ(this)">How do I perform a bulk data import? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Chillhub supports bulk import for customers, products, price lists, and opening balances. Refer to the <a href="https://wiki.chillhub.com.my/doku.php?id=batch_import" target="_blank">Batch Import Guide on the Knowledge Base</a> for full instructions and template files.
+      </div>
+    </div>
+
+    <div class="faq-item" data-cat="setup">
+      <button class="faq-q" onclick="toggleFAQ(this)">How do I revise selling prices for all products and services at once? <span class="faq-arr">▼</span></button>
+      <div class="faq-a">
+        Use the Import/Export Pricing Data feature. Refer to the <a href="https://wiki.chillhub.com.my/doku.php?id=pricing#import_export_pricing_data" target="_blank">Pricing guide on the Knowledge Base</a> for full instructions.
+      </div>
+    </div>
+
+    <!-- WIKI CTA -->
+    <div class="wiki-cta">
+      <div class="wiki-cta-text">
+        <h3>Need more detailed guides?</h3>
+        <p>Our Knowledge Base covers every module with step-by-step instructions, screenshots, and worked examples.</p>
+      </div>
+      <a href="https://wiki.chillhub.com.my" target="_blank" class="btn-outline">Browse Knowledge Base →</a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <span>chill</span>hub · <a href="https://wiki.chillhub.com.my" target="_blank" style="color:var(--blue-md)">wiki.chillhub.com.my</a>
+</footer>
+
+<script>
+function toggleFAQ(btn) {
+  const item = btn.closest('.faq-item');
+  item.classList.toggle('open');
+}
+
+function filterFAQ(btn, cat) {
+  document.querySelectorAll('.fc-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.style.display = (cat === 'all' || item.dataset.cat === cat) ? '' : 'none';
+  });
+
+  // Show/hide category labels
+  document.querySelectorAll('.cat-label').forEach(lbl => {
+    const forCat = lbl.dataset.for;
+    if (cat === 'all') {
+      lbl.classList.add('visible');
+    } else {
+      lbl.classList.toggle('visible', forCat === cat);
+    }
+  });
+
+  // Close all open items when filtering
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+}
+
+// Show all category labels on load
+document.querySelectorAll('.cat-label').forEach(l => l.classList.add('visible'));
+</script>
+</body>
+</html>
